@@ -1,0 +1,14 @@
+{
+  "id": "/",
+  "name": "Rohan Salunkhe",
+  "short_name": "Rohan Salunkhe",
+  "description": "A full-stack engineer based in India building thoughtful web products with the MERN stack.",
+  "lang": "en-US",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#140c08",
+  "theme_color": "#140c08",
+  "icons": []
+}

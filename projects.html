@@ -1,0 +1,2718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projects | Rohan Salunkhe</title>
+<meta name="description" content="A small collection of projects I've built, from retrieval infrastructure to personal productivity tools.">
+<meta name="author" content="Rohan Salunkhe">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#140c08">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rohan Salunkhe">
+<meta name="application-name" content="Rohan Salunkhe">
+<link rel="canonical" href="https://rohansalunkhe.dev/projects">
+<meta property="og:title" content="Projects | Rohan Salunkhe">
+<meta property="og:description" content="A small collection of projects I've built, from retrieval infrastructure to personal productivity tools.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rohansalunkhe.dev/projects">
+<!-- TODO: supply a real /og.jpg (1200x630) before launch; this path is a placeholder. -->
+<meta property="og:image" content="https://rohansalunkhe.dev/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rohan Salunkhe portfolio site preview.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@SalunkheRohan01">
+<meta name="twitter:title" content="Projects | Rohan Salunkhe">
+<meta name="twitter:description" content="A small collection of projects I've built, from retrieval infrastructure to personal productivity tools.">
+<meta name="twitter:image" content="https://rohansalunkhe.dev/og.jpg">
+<meta name="twitter:image:alt" content="Rohan Salunkhe portfolio site preview.">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- No custom favicon art yet; using an inline SVG monogram to avoid 404s. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140c08'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://rohansalunkhe.dev/#website",
+      "url": "https://rohansalunkhe.dev/",
+      "name": "Rohan Salunkhe"
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://rohansalunkhe.dev/#profile",
+      "url": "https://rohansalunkhe.dev/",
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "https://rohansalunkhe.dev/#rohan",
+        "name": "Rohan Salunkhe",
+        "url": "https://rohansalunkhe.dev/",
+        "description": "A full-stack engineer based in India building thoughtful web products with the MERN stack.",
+        "sameAs": [
+          "https://github.com/THEROHAN01",
+          "https://www.linkedin.com/in/rohan-salunkhe-a9498228a/",
+          "https://x.com/SalunkheRohan01",
+          "https://www.instagram.com/thesaltycoder"
+        ]
+      }
+    }
+  ]
+}
+</script>
+<style>
+  /*
+   * Font substitution notice: the reference site used a proprietary
+   * "American Grotesk" commercial font (14 woff2 files) we do not have
+   * rights to redistribute. We removed the @font-face rules and the font
+   * preload <link> tags entirely and fall back to a system font stack
+   * below, so nothing 404s and the site still renders with a clean,
+   * similarly-modern grotesk feel.
+   */
+  :root {
+    --bg: #140c08;
+    --line: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    --ink: #fff6e8;
+    --accent: #17c3a2;
+    --link: #8fe3d4;
+    --link-on: #5fd6c0;
+    --tile: 19px;
+    --gap: 1px;
+    --cell: 20px;
+    --fs: calc(var(--tile) * 0.7);
+    --lh: var(--cell);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: pinch-zoom;
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  body {
+    color: var(--ink);
+    font: 400 var(--fs) / var(--lh) var(--font);
+    font-synthesis: none;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+  }
+
+  #stage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg);
+    touch-action: pinch-zoom;
+  }
+  #stage::-webkit-scrollbar {
+    display: none;
+  }
+  #world {
+    position: relative;
+    width: var(--world-w, 100%);
+    min-width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* The animated grid can end on a fractional row at arbitrary viewport
+     heights. Keep the outer frame structural so every edge is always one
+     complete 20px cell, independent of canvas and content geometry. */
+  #frame {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+  }
+  .frame-edge {
+    position: absolute;
+    display: block;
+    background-color: var(--bg);
+  }
+  .frame-top,
+  .frame-bottom {
+    left: 0;
+    width: 100%;
+    height: var(--cell);
+    background-image:
+      linear-gradient(to bottom, transparent 0 var(--tile), var(--bg) var(--tile) var(--cell)),
+      repeating-linear-gradient(to right, var(--line) 0 var(--tile), var(--bg) var(--tile) var(--cell));
+  }
+  .frame-top { top: 0; }
+  .frame-bottom { bottom: -1px; }
+  .frame-left,
+  .frame-right {
+    top: 0;
+    width: var(--cell);
+    height: 100%;
+    background-image:
+      linear-gradient(to right, transparent 0 var(--tile), var(--bg) var(--tile) var(--cell)),
+      repeating-linear-gradient(to bottom, var(--line) 0 var(--tile), var(--bg) var(--tile) var(--cell));
+  }
+  .frame-left { left: 0; }
+  .frame-right { right: -1px; }
+  .frame-top,
+  .frame-bottom { z-index: 2; }
+
+  /*
+   * SIDEBAR: solid, inset by one unlit tile. A second bar can open
+   * to the right and eat the same width of color tiles.
+   */
+  #deck {
+    --text-amt: 1;
+    position: absolute;
+    top: var(--pane-top, 20px);
+    left: var(--side-pad, 20px);
+    width: var(--pane-w, 25%);
+    height: var(--pane-h, calc(100% - 40px));
+    z-index: 4;
+    overflow: hidden;
+    pointer-events: none;
+    overscroll-behavior: none;
+    background: var(--bg);
+  }
+  #deck.show {
+    pointer-events: auto;
+  }
+  #drawer,
+  #detail {
+    position: absolute;
+    top: var(--pane-top, 20px);
+    width: var(--pane-w, 25%);
+    height: var(--pane-h, calc(100% - 40px));
+    z-index: 2;
+    overflow: hidden;
+    display: none;
+    background: var(--bg);
+  }
+  #drawer {
+    left: var(--drawer-left, calc(var(--side-pad, 20px) + var(--pane-w, 25%)));
+  }
+  #detail {
+    left: var(--detail-left, calc(var(--side-pad, 20px) + var(--pane-w, 25%) + var(--pane-w, 25%)));
+  }
+  #drawer::before,
+  #detail::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1.5px;
+    z-index: 1;
+    pointer-events: none;
+    background: var(--line);
+  }
+  #drawer.open,
+  #detail.open {
+    display: block;
+    pointer-events: auto;
+  }
+  #drawer-body,
+  #detail-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  #drawer .pane,
+  #detail .pane {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+  }
+  #strip {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--pane-gap, 0px);
+    padding: 0;
+    height: 100%;
+    width: max-content;
+    transform: translate3d(calc(-1 * var(--strip-x, 0px)), 0, 0);
+    will-change: transform;
+  }
+  .pane {
+    font: 400 var(--fs) / var(--lh) var(--font);
+    flex: 0 0 auto;
+    width: var(--pane-w, 25%);
+    height: 100%;
+    margin: 0;
+    padding: max(var(--cell), env(safe-area-inset-top, 0px))
+             max(var(--cell), env(safe-area-inset-right, 0px))
+             max(var(--cell), env(safe-area-inset-bottom, 0px))
+             max(var(--cell), env(safe-area-inset-left, 0px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: auto;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y pinch-zoom;
+    -webkit-user-select: text;
+    user-select: text;
+    color: var(--ink);
+    background: var(--bg);
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .pane > * { position: relative; opacity: var(--text-amt); }
+  .pane a {
+    color: var(--link);
+    text-decoration: none;
+    transition: color 0.4s linear;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+  }
+  .pane a:hover,
+  .pane a:focus-visible,
+  .pane a.is-on { color: var(--link-on); }
+  .editorial a.text-link { text-decoration: underline; }
+
+  .editorial {
+    font: 400 1rem / 1.5 var(--font);
+    padding: var(--cell);
+  }
+  .editorial .name { font-weight: 500; }
+  .editorial .title-label {
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 1.5rem);
+    line-height: 1;
+    vertical-align: baseline;
+  }
+  @supports (text-box-trim: trim-both) and (text-box-edge: cap alphabetic) {
+    .editorial .title-label,
+    .work-list .link-label {
+      text-box-trim: trim-both;
+      text-box-edge: cap alphabetic;
+    }
+  }
+  .editorial i, .editorial em, .pane i, .pane em { font-style: italic; }
+  .editorial h1 {
+    margin: 0 0 8px;
+    font: inherit;
+    font-weight: 400;
+  }
+  .editorial p {
+    margin: 0 0 1em;
+    max-width: none;
+    text-align: left;
+    hyphens: none;
+  }
+  #about {
+    display: flex;
+    flex-direction: column;
+  }
+  .work-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+  nav.work-list {
+    margin: 0 0 1em;
+  }
+  .work-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5em;
+    gap: 0.35em;
+  }
+  .work-list .link-label {
+    display: inline-block;
+    line-height: 1;
+  }
+  .close-icon {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 0.62em;
+    height: 0.62em;
+    background: currentColor;
+    border-radius: 50%;
+  }
+  .close-icon svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .close-icon path {
+    fill: none;
+    stroke: var(--bg);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+  .pane-close {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.15rem);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    transform: translateY(-50%);
+  }
+  #stage.stack-clipped .pane-close {
+    display: inline-flex;
+  }
+  #about .social-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto 0 0;
+  }
+  /* Sound-toggle button and #site-audio CSS removed: no audio asset ships
+     with this build (see the JS-side note further down). */
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world">
+    <canvas id="wall"></canvas>
+    <div id="deck" aria-hidden="true">
+      <div id="strip"></div>
+    </div>
+    <div id="drawer">
+      <div id="drawer-body"></div>
+    </div>
+    <div id="detail" role="region" aria-hidden="true" aria-label="Project details">
+      <div id="detail-body"></div>
+    </div>
+    <div id="frame" aria-hidden="true">
+      <span class="frame-edge frame-top"></span>
+      <span class="frame-edge frame-right"></span>
+      <span class="frame-edge frame-bottom"></span>
+      <span class="frame-edge frame-left"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Closed panes live here until opened; once opened they stay on the strip. -->
+<div id="hold" hidden>
+  <article class="pane editorial" id="about">
+    <p class="name">Rohan Salunkhe</p>
+    <p>I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.</p>
+    <p class="work-list">
+      <a href="/work/turtleauth" data-work="turtleauth" data-go="turtleauth">turtleauth</a>
+    </p>
+    <p class="work-list">
+      <a href="/projects" data-go="projects">Projects</a>
+    </p>
+    <p class="social-links">
+      <a href="https://github.com/THEROHAN01" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rohan-salunkhe-a9498228a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/SalunkheRohan01" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://www.instagram.com/thesaltycoder" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </p>
+  </article>
+  <article class="pane editorial" id="turtleauth">
+    <p class="name">turtleauth</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/turtleauth" target="_blank" rel="noopener noreferrer">turtleauth</a> from scratch as a production-ready authentication and identity service: sessions, JWTs, OAuth/OIDC, multi-factor authentication, passkeys (WebAuthn), and role-based access control, all in one reusable layer other apps can plug into instead of gluing together yet another set of auth libraries.</p>
+    <p>I approached it with a security-first mindset throughout &mdash; careful session handling, rate limiting, and an RBAC model designed to be explicit rather than bolted on. Getting these details right, and getting them right consistently, was the whole point of the project.</p>
+    <p>I built it solo, on purpose, so I'd understand authentication systems end-to-end instead of only ever wiring up an off-the-shelf provider. It's still evolving as I find more edge cases worth handling properly.</p>
+  </article>
+  <article class="pane editorial" id="projects">
+    <p class="name">Projects</p>
+    <nav class="work-list" aria-label="Projects">
+      <a href="/projects/jarvis" data-detail="project-jarvis" aria-controls="detail" aria-expanded="false">jarvis</a>
+      <a href="/projects/crowd-vibe" data-detail="project-crowd-vibe" aria-controls="detail" aria-expanded="false">crowd-vibe</a>
+      <a href="/projects/brainly-monorepo" data-detail="project-brainly-monorepo" aria-controls="detail" aria-expanded="false">brainly-monorepo</a>
+      <a href="/projects/lockedin" data-detail="project-lockedin" aria-controls="detail" aria-expanded="false">lockedin</a>
+      <a href="/projects/open-source" data-detail="project-open-source" aria-controls="detail" aria-expanded="false">More Soon</a>
+    </nav>
+  </article>
+</div>
+
+<div id="project-hold" hidden>
+  <article class="pane editorial" id="project-jarvis">
+    <p class="name" tabindex="-1">jarvis</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/jarvis" target="_blank" rel="noopener noreferrer">jarvis</a>, production-grade retrieval infrastructure for building accurate, scalable, enterprise-ready RAG systems. It covers the parts of retrieval that are easy to get wrong: chunking documents sensibly, generating and indexing embeddings, and tuning retrieval quality so the right context actually reaches the model.</p>
+    <p>The goal was to move past toy RAG demos toward something that holds up at enterprise scale, where document volume, latency, and retrieval accuracy all matter at once.</p>
+  </article>
+  <article class="pane editorial" id="project-crowd-vibe">
+    <p class="name" tabindex="-1">crowd-vibe</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/crowd-vibe" target="_blank" rel="noopener noreferrer">crowd-vibe</a> as an experiment in sensing the mood of a crowd or event in real time &mdash; a small exploration of how a group's shared energy at a gathering might be captured and reflected back, rather than a finished product with a fixed feature set.</p>
+    <p>It's still evolving, and the exact direction is something I'm continuing to figure out as I build.</p>
+  </article>
+  <article class="pane editorial" id="project-brainly-monorepo">
+    <p class="name" tabindex="-1">brainly-monorepo</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/brainly-monorepo" target="_blank" rel="noopener noreferrer">brainly-monorepo</a>, a "Brainly"-style knowledge and bookmarking app, structured as a monorepo with the frontend and backend living side by side. The idea was a simple, personal way to save and organize links, notes, and ideas you want to come back to.</p>
+    <p>Building it as a monorepo let me iterate on the client and API together without the overhead of juggling separate repos while the shape of the product was still changing.</p>
+  </article>
+  <article class="pane editorial" id="project-lockedin">
+    <p class="name" tabindex="-1">lockedin</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/lockedin" target="_blank" rel="noopener noreferrer">lockedin</a>, an execution operating system that transforms long-term goals into daily missions. It's a personal productivity tool aimed at closing the gap between having a goal and actually doing something about it today.</p>
+    <p>The core idea is breaking down anything you're working toward into small, concrete daily actions, so progress is something you can see and track instead of something you hope is happening in the background.</p>
+  </article>
+  <article class="pane editorial" id="project-open-source">
+    <p class="name" tabindex="-1">More Soon</p>
+    <p>More projects &mdash; including open-source contributions &mdash; are coming soon. Check back later, or see everything on <a class="text-link" href="https://github.com/THEROHAN01" target="_blank" rel="noopener noreferrer">GitHub</a> in the meantime.</p>
+  </article>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const CFG = {
+  tile: 19, gap: 1, radius: 0,
+  speed: 1,
+  react: 1,
+
+  /* Deep teal → cyan → seafoam. No near-black stops. */
+  palette: [
+    "#003b36", "#00544c", "#0a6f63", "#127f6e",
+    "#17c3a2", "#2ad9c2", "#5fe8d6", "#8ff2e6",
+    "#c6faf1", "#0d9488", "#065f5a"
+  ],
+
+  colorScale: 0.05,
+  colorDrift: 0.04,
+  colorDriftY: 0.018,
+  colorEvolve: 0.05,
+  hueCycle: 0.012,
+  waveScale: 0.10,
+  waveDriftX: 0.06,
+  waveDriftY: 0.025,
+  waveEvolve: 0.09,
+  threshold: 0.02,
+  gamma: 0.95,
+  floor: 0.55,
+
+  /* Directional drawer wipes; the switch banner is about ten tile rows. */
+  revealIn: 1.3,
+  switchIn: 1.5,
+  colorIn: 0.65,
+  revealSoft: 2.3,
+  jagAmp: 7,
+  drawerFlowCols: 3.1,
+  drawerGlowCols: 4.2,
+  drawerFlexCols: 1.6,
+  switchBandRows: 10,
+  switchBandMinRows: 10,
+  switchFlowRows: 3,
+  switchFlexRows: 2.2,
+
+  dimQuiet: 0.10,
+  swellSpeed: 3.0,
+
+  /* Short acceleration/deceleration with an intentionally linear middle. */
+  paneAnimDur: 0.52,
+  paneAccel: 0.16
+};
+
+const stage = document.getElementById("stage");
+const wall = document.getElementById("wall");
+const ctx = wall.getContext("2d");
+const lineColorProbe = document.createElement("span");
+lineColorProbe.style.cssText = "position:fixed;width:0;height:0;background:var(--line)";
+document.body.appendChild(lineColorProbe);
+const borderFill = getComputedStyle(lineColorProbe).backgroundColor;
+lineColorProbe.remove();
+const deckEl = document.getElementById("deck");
+const stripEl = document.getElementById("strip");
+const holdEl = document.getElementById("hold");
+const drawerEl = document.getElementById("drawer");
+const drawerBodyEl = document.getElementById("drawer-body");
+const detailEl = document.getElementById("detail");
+const detailBodyEl = document.getElementById("detail-body");
+const projectHoldEl = document.getElementById("project-hold");
+drawerEl.inert = true;
+drawerEl.setAttribute("aria-hidden", "true");
+detailEl.inert = true;
+let drawerId = null;
+const drawerSwitches = [];
+let detailId = null;
+let detailIntentOpen = false;
+let detailCompact = false;
+let detailReturnLink = null;
+let detailRestoreFocus = true;
+let detailFocusPending = null;
+const detailSwitches = [];
+const PANE_ORDER = ["about", "turtleauth", "projects"];
+const paneById = Object.fromEntries(
+  Array.from(holdEl.querySelectorAll(".pane")).map(p => [p.id, p])
+);
+const detailById = Object.fromEntries(
+  Array.from(projectHoldEl.querySelectorAll(".pane")).map(p => [p.id, p])
+);
+const SITE_DESCRIPTION = "I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.";
+const ROUTES = [
+  { path: "/", title: "Rohan Salunkhe", description: SITE_DESCRIPTION },
+  { path: "/work/turtleauth", title: "turtleauth", description: "A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.", drawerId: "turtleauth", workId: "turtleauth" },
+  { path: "/projects", title: "Projects", description: "A small collection of projects I've built, from retrieval infrastructure to personal productivity tools.", drawerId: "projects" },
+  { path: "/projects/jarvis", title: "jarvis", description: "Production-grade retrieval infrastructure for building accurate, scalable, enterprise-ready RAG systems.", drawerId: "projects", detailId: "project-jarvis" },
+  { path: "/projects/crowd-vibe", title: "crowd-vibe", description: "An experiment in sensing the mood of a crowd or event in real time.", drawerId: "projects", detailId: "project-crowd-vibe" },
+  { path: "/projects/brainly-monorepo", title: "brainly-monorepo", description: "A Brainly-style knowledge and bookmarking app, built as a monorepo.", drawerId: "projects", detailId: "project-brainly-monorepo" },
+  { path: "/projects/lockedin", title: "lockedin", description: "An execution operating system that transforms long-term goals into daily missions.", drawerId: "projects", detailId: "project-lockedin" },
+  { path: "/projects/open-source", title: "More Soon", description: "More projects, including open-source contributions, are coming soon.", drawerId: "projects", detailId: "project-open-source" }
+];
+const ROUTE_BY_PATH = Object.fromEntries(ROUTES.map(route => [route.path, route]));
+const PATH_BY_WORK = Object.fromEntries(ROUTES.filter(route => route.workId).map(route => [route.workId, route.path]));
+const PATH_BY_DETAIL = Object.fromEntries(ROUTES.filter(route => route.detailId).map(route => [route.detailId, route.path]));
+const PATH_BY_DRAWER = Object.fromEntries(
+  ROUTES.filter(route => route.drawerId && !route.detailId && !route.workId)
+    .map(route => [route.drawerId, route.path])
+);
+const LEGACY_HASH_PATHS = {
+  about: "/",
+  home: "/",
+  turtleauth: "/work/turtleauth",
+  projects: "/projects",
+  thoughts: "/",
+  "project-jarvis": "/projects/jarvis",
+  "project-crowd-vibe": "/projects/crowd-vibe",
+  "project-brainly-monorepo": "/projects/brainly-monorepo",
+  "project-lockedin": "/projects/lockedin",
+  "project-open-source": "/projects/open-source"
+};
+const opened = new Set();
+let paneEls = [];
+
+let paneW = 0, paneH = 0, paneGap = 0, paneTop = 0, sidePad = 0;
+let paneStride = 0;
+let viewportW = 0, worldW = 0, viewCols = 0;
+let colorLeft = 1;
+let homeRight = 1, drawerCols = 0, drawerL = 1, drawerR = 1, detailL = 1, detailR = 1;
+let paneIntentOpen = false;
+let paneWaveSeq = 0;
+const paneWaves = [];
+let paneCellOpen = new Uint8Array(0);
+let paneCellEvent = new Uint32Array(0);
+let paneCellLayoutKey = "";
+let targetPane = 0, stripX = 0, stripTarget = 0, stripFrom = 0, stripAnimT = 1;
+let cameraFrom = 0, cameraTarget = 0, cameraAnimT = 1, cameraDuration = 0;
+let cameraStartVelocity = 0, cameraInertiaVelocity = 0;
+let cameraOpening = false;
+
+function fillLUT(out, palette) {
+  const stops = palette.map(h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)));
+  const n = stops.length;
+  for (let k = 0; k < 512; k++) {
+    const s = (k / 512) * n;
+    const i0 = Math.floor(s);
+    let f = s - i0;
+    f = f * f * (3 - 2 * f);
+    const a = stops[i0 % n], b = stops[(i0 + 1) % n];
+    for (let c = 0; c < 3; c++) out[k * 3 + c] = Math.sqrt(a[c] * a[c] * (1 - f) + b[c] * b[c] * f);
+  }
+}
+const lutFrom = new Uint8ClampedArray(512 * 3);
+const lutTo = new Uint8ClampedArray(512 * 3);
+fillLUT(lutFrom, CFG.palette);
+fillLUT(lutTo, CFG.palette);
+let lutT = 1, lutDur = 0.4;
+const cache = new Array(512 * 64);
+
+const WORK = {
+  turtleauth: {
+    seed: 42,
+    palette: ["#003b36", "#0a6f63", "#127f6e", "#17c3a2", "#5fe8d6", "#8ff2e6"]
+  }
+};
+
+let workId = null, workLocked = false, workSeed = 0, workSeedTo = 0;
+
+function makeCloseIcon() {
+  const icon = document.createElement("span");
+  icon.className = "close-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = '<svg viewBox="0 0 12 12"><path d="M4 4 8 8M8 4 4 8"/></svg>';
+  return icon;
+}
+
+function makeLinkLabel(label) {
+  const text = document.createElement("span");
+  text.className = "link-label";
+  text.textContent = label;
+  return text;
+}
+
+function ensureLinkLabel(link, label) {
+  let text = link.querySelector(":scope > .link-label");
+  if (!text) {
+    text = makeLinkLabel(label);
+    const icon = link.querySelector(":scope > .close-icon");
+    link.replaceChildren(text);
+    if (icon) link.appendChild(icon);
+  } else if (text.textContent !== label) {
+    text.textContent = label;
+  }
+  return text;
+}
+
+function appendPaneClose(heading, href, attribute) {
+  if (!heading || heading.querySelector("[" + attribute + "]")) return;
+  const label = heading.textContent.trim();
+  const title = document.createElement("span");
+  title.className = "title-label";
+  title.textContent = label;
+  const close = document.createElement("a");
+  close.className = "pane-close";
+  close.href = href;
+  close.setAttribute(attribute, "");
+  close.setAttribute("aria-label", "Close " + label);
+  close.appendChild(makeCloseIcon());
+  title.appendChild(close);
+  heading.replaceChildren(title);
+}
+
+function preparePaneCloseControls() {
+  Object.values(paneById).forEach(pane => {
+    if (pane.id === "about") return;
+    appendPaneClose(pane.querySelector(".name"), "/", "data-close-drawer");
+  });
+  Object.values(detailById).forEach(pane => {
+    const heading = pane.querySelector(".name[tabindex]");
+    appendPaneClose(heading, "/projects", "data-close-detail");
+  });
+}
+
+function syncWorkLinks() {
+  deckEl.querySelectorAll("a[data-work], a[data-go]").forEach(a => {
+    const label = a.dataset.label || a.textContent.replace(/^\[|\]$/g, "");
+    a.dataset.label = label;
+    ensureLinkLabel(a, label);
+    const work = a.getAttribute("data-work");
+    const go = a.getAttribute("data-go");
+    const active = (work && workLocked && work === workId) ||
+      (!work && go && go === drawerId && paneIntentOpen);
+    const icon = a.querySelector(":scope > .close-icon");
+    if (active && !icon) a.appendChild(makeCloseIcon());
+    else if (!active && icon) icon.remove();
+    a.classList.toggle("is-on", active);
+    if (active) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+}
+
+function syncDetailLinks() {
+  document.querySelectorAll("a[data-detail]").forEach(a => {
+    const label = a.dataset.label || a.textContent;
+    a.dataset.label = label;
+    ensureLinkLabel(a, label);
+    const active = detailIntentOpen && a.getAttribute("data-detail") === detailId;
+    const icon = a.querySelector(":scope > .close-icon");
+    if (active && !icon) a.appendChild(makeCloseIcon());
+    else if (!active && icon) icon.remove();
+    a.classList.toggle("is-on", active);
+    a.setAttribute("aria-expanded", active ? "true" : "false");
+    if (active) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+}
+
+function snapshotLUT() {
+  const t = lutT <= 0 ? 0 : lutT >= 1 ? 1 : lutT * lutT * (3 - 2 * lutT);
+  for (let i = 0; i < lutFrom.length; i++) lutFrom[i] = lutFrom[i] * (1 - t) + lutTo[i] * t;
+}
+function applyWork(id, lock, dur) {
+  const next = id || null;
+  if (next === workId) {
+    if (lock) workLocked = !!workId;
+    syncWorkLinks();
+    return;
+  }
+  workId = next;
+  if (lock) workLocked = !!workId;
+  lutDur = dur || CFG.colorIn;
+  const spec = workId && WORK[workId];
+  snapshotLUT();
+  fillLUT(lutTo, spec ? spec.palette : CFG.palette);
+  lutT = 0;
+  /* Keep the procedural field close enough for continuous noise morphing. */
+  workSeedTo = spec ? spec.seed * 0.07 : 0;
+  for (let k = 0; k < cache.length; k++) cache[k] = undefined;
+  syncWorkLinks();
+}
+
+function hash3(x, y, z) {
+  let n = (Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(z, 1440662683)) | 0;
+  n = Math.imul(n ^ (n >>> 13), 1274126177);
+  n ^= n >>> 16;
+  return (n >>> 0) / 4294967296;
+}
+function noise3(x, y, z) {
+  const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+  const fx = x - xi, fy = y - yi, fz = z - zi;
+  const u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy), w = fz * fz * (3 - 2 * fz);
+  const l = (a, b, t) => a + (b - a) * t;
+  const x00 = l(hash3(xi, yi, zi),         hash3(xi + 1, yi, zi),         u);
+  const x10 = l(hash3(xi, yi + 1, zi),     hash3(xi + 1, yi + 1, zi),     u);
+  const x01 = l(hash3(xi, yi, zi + 1),     hash3(xi + 1, yi, zi + 1),     u);
+  const x11 = l(hash3(xi, yi + 1, zi + 1), hash3(xi + 1, yi + 1, zi + 1), u);
+  return l(l(x00, x10, v), l(x01, x11, v), w);
+}
+function fbm(x, y, z) {
+  return 0.62 * noise3(x, y, z) + 0.38 * noise3(x * 2.17 + 11.3, y * 2.17 + 7.9, z * 2.17 + 3.1);
+}
+
+/* Original center-out splash, with slightly calmer roughness and glow. */
+function splashEdge(i, j, cx, cy, radius) {
+  const d = Math.hypot(i - cx, j - cy);
+  const jag = (fbm(i * 0.3, j * 0.3, 5.7) - 0.5) * CFG.jagAmp;
+  return radius - d + jag;
+}
+function splashRing(e) {
+  return Math.exp(-(e * e) / 5) * 0.8;
+}
+function splashMask(e) {
+  let m = e / CFG.revealSoft;
+  return m < 0 ? 0 : m > 1 ? 1 : m * m * (3 - 2 * m);
+}
+
+/* Pane motion has one owner per band. A reversal inherits the current
+   front, texture, and energy so rapid input stays continuous. */
+function paneWaveBirth(wave) {
+  const duration = wave.action === "close" ? 0.56 : 0.24;
+  const progress = wave.age <= 0 ? 0 : wave.age >= duration ? 1 : sm(wave.age / duration);
+  return wave.action === "close" ? progress : 0.58 + 0.42 * progress;
+}
+
+function paneWaveFlow(wave, j) {
+  const t = wave.age;
+  const seed = wave.seed;
+  const born = paneWaveBirth(wave);
+  const breath = 0.82 + 0.18 * Math.sin(t * 1.9 + wave.phase);
+  return (
+    (fbm(j * 0.13 + seed, t * 0.22, 73.4 + seed) - 0.5) * 2 * CFG.drawerFlowCols * breath +
+    Math.sin(j * 0.21 + t * 1.35 + wave.phase) * 1.05 +
+    Math.sin(j * 0.47 - t * 0.8 + seed * 0.37) * 0.42
+  ) * born;
+}
+
+function paneWaveEdge(wave, i, j) {
+  const front = wave.x + paneWaveFlow(wave, j);
+  return wave.dir > 0 ? front - i : i - front;
+}
+
+function paneWaveGlowWidth(wave, j) {
+  const t = wave.age;
+  const seed = wave.seed;
+  const flow =
+    (fbm(j * 0.15 + seed * 0.4, t * 0.18, 146.2 + seed) - 0.5) * 2 * CFG.drawerFlexCols +
+    Math.sin(j * 0.28 - t * 1.1 + wave.phase) * 0.55;
+  const breath = Math.sin(t * 1.6 + seed * 0.7) * 0.65;
+  const born = paneWaveBirth(wave);
+  return Math.max(1.5, 1.5 + (CFG.drawerGlowCols - 1.5 + flow + breath) * born);
+}
+
+function paneBand(name) {
+  return name === "detail"
+    ? { left: detailL, right: detailR }
+    : { left: drawerL, right: drawerR };
+}
+
+function setPaneIntent(name, open) {
+  if (name === "detail") detailIntentOpen = open;
+  else paneIntentOpen = open;
+}
+
+function markPaneBand(name, open) {
+  const { left, right } = paneBand(name);
+  const value = open ? 1 : 0;
+  const event = ++paneWaveSeq;
+  for (let j = 1; j < rows - 1; j++) {
+    for (let i = left; i < right; i++) {
+      const index = j * cols + i;
+      paneCellOpen[index] = value;
+      paneCellEvent[index] = event;
+    }
+  }
+}
+
+function retirePaneWaves(name) {
+  for (let i = paneWaves.length - 1; i >= 0; i--) {
+    if (paneWaves[i].band === name) paneWaves.splice(i, 1);
+  }
+}
+
+function takePaneWave(name) {
+  for (let i = paneWaves.length - 1; i >= 0; i--) {
+    if (paneWaves[i].band === name) return paneWaves.splice(i, 1)[0];
+  }
+  return null;
+}
+
+function settlePaneBand(name, open) {
+  retirePaneWaves(name);
+  markPaneBand(name, open);
+}
+
+function ensurePaneCells() {
+  const layoutKey = [cols, rows, drawerL, drawerR, detailL, detailR].join(":");
+  if (paneCellOpen.length === Math.max(0, cols * rows) && paneCellLayoutKey === layoutKey) return;
+  const previousLayout = paneCellLayoutKey.split(":").map(Number);
+  const previousOpen = paneCellOpen;
+  const previousEvent = paneCellEvent;
+  const hasPreviousLayout = previousLayout.length === 6 &&
+    previousLayout.every(Number.isFinite) &&
+    previousOpen.length === previousLayout[0] * previousLayout[1];
+
+  paneCellLayoutKey = layoutKey;
+  paneCellOpen = new Uint8Array(Math.max(0, cols * rows));
+  paneCellEvent = new Uint32Array(paneCellOpen.length);
+
+  if (hasPreviousLayout) {
+    const [oldCols, oldRows, oldDrawerL, oldDrawerR, oldDetailL, oldDetailR] = previousLayout;
+    const copyBand = (oldLeft, oldRight, newLeft, newRight) => {
+      const oldWidth = Math.max(1, oldRight - oldLeft);
+      const newWidth = Math.max(1, newRight - newLeft);
+      const oldInteriorRows = Math.max(1, oldRows - 2);
+      for (let j = 1; j < rows - 1; j++) {
+        /* Height changes add or remove rows at the bottom, so existing
+           world rows stay fixed instead of vertically stretching. */
+        const oldJ = Math.min(oldRows - 2, Math.max(1, j));
+        if (oldJ < 1 || oldJ > oldInteriorRows) continue;
+        for (let i = newLeft; i < newRight; i++) {
+          const u = (i - newLeft + 0.5) / newWidth;
+          const oldI = Math.min(oldRight - 1, oldLeft + Math.floor(u * oldWidth));
+          const oldIndex = oldJ * oldCols + oldI;
+          const newIndex = j * cols + i;
+          paneCellOpen[newIndex] = previousOpen[oldIndex];
+          paneCellEvent[newIndex] = previousEvent[oldIndex];
+        }
+      }
+    };
+
+    copyBand(oldDrawerL, oldDrawerR, drawerL, drawerR);
+    copyBand(oldDetailL, oldDetailR, detailL, detailR);
+
+    const lead = 1.15;
+    for (const wave of paneWaves) {
+      const oldMin = wave.left - lead;
+      const oldMax = wave.right - 1 + lead;
+      const progress = oldMax === oldMin ? 0.5 : (wave.x - oldMin) / (oldMax - oldMin);
+      const nextBand = wave.band === "stack"
+        ? { left: drawerL, right: detailR }
+        : paneBand(wave.band);
+      const nextMin = nextBand.left - lead;
+      const nextMax = nextBand.right - 1 + lead;
+      wave.left = nextBand.left;
+      wave.right = nextBand.right;
+      wave.x = nextMin + (nextMax - nextMin) * progress;
+      wave.speed = (drawerCols + lead * 2) / CFG.revealIn;
+      wave.velocity = wave.speed;
+    }
+    return;
+  }
+
+  paneWaves.length = 0;
+  if (paneIntentOpen && drawerId) markPaneBand("drawer", true);
+  if (detailIntentOpen && detailId) markPaneBand("detail", true);
+}
+
+function paneCellsMatch(open, name = "drawer") {
+  const { left, right } = paneBand(name);
+  const wanted = open ? 1 : 0;
+  for (let j = 1; j < rows - 1; j++) {
+    for (let i = left; i < right; i++) {
+      if (paneCellOpen[j * cols + i] !== wanted) return false;
+    }
+  }
+  return true;
+}
+
+function emitPaneWave(action, name = "drawer", { predecessor = null } = {}) {
+  const opening = action === "open";
+  if (reducedMotion) {
+    setPaneIntent(name, opening);
+    settlePaneBand(name, opening);
+    return 0;
+  }
+  const dir = opening ? 1 : -1;
+  const { left, right } = paneBand(name);
+  const opposite = predecessor || [...paneWaves].reverse().find(wave =>
+    wave.band === name && wave.action !== action && wave.strength > 0.02
+  );
+  /* Start on the pane lip so the first tiles move immediately, then
+     only travel that column instead of the whole color field. */
+  const lead = 1.15;
+  const minSource = left - lead;
+  const maxSource = right - 1 + lead;
+  const source = opposite
+    ? Math.max(minSource, Math.min(maxSource, opposite.x))
+    : (opening ? minSource : maxSource);
+  const speed = (right - left + lead * 2) / CFG.revealIn;
+  const target = opening ? maxSource : minSource;
+  const duration = Math.max(0.18, Math.abs(target - source) / speed);
+
+  /* A band has one owner at a time. Reversals inherit only the position
+     inside that band, never the long fading tail beyond it. */
+  retirePaneWaves(name);
+
+  paneWaves.push({
+    id: ++paneWaveSeq,
+    band: name,
+    action,
+    dir,
+    left,
+    right,
+    x: source,
+    velocity: speed,
+    speed,
+    age: opposite ? opposite.age : 0,
+    strength: opposite ? opposite.strength : opening ? 1 : 0,
+    seed: opposite ? opposite.seed : Math.random() * 1000,
+    phase: opposite ? opposite.phase : Math.random() * Math.PI * 2
+  });
+  setPaneIntent(name, opening);
+  return duration;
+}
+
+function emitCascadeClose() {
+  const lead = 1.15;
+  const left = drawerL;
+  const right = detailR;
+  const minSource = left - lead;
+  const maxSource = right - 1 + lead;
+  const predecessor = !detailIntentOpen
+    ? [...paneWaves].reverse().find(wave =>
+        wave.action === "close" && wave.strength > 0.02 &&
+        (wave.band === "detail" || wave.band === "stack")
+      )
+    : null;
+  const source = predecessor
+    ? Math.max(minSource, Math.min(maxSource, predecessor.x))
+    : maxSource;
+  const speed = (drawerCols + lead * 2) / CFG.revealIn;
+  const duration = Math.max(CFG.paneAnimDur, (source - minSource) / speed);
+
+  retirePaneWaves("drawer");
+  retirePaneWaves("detail");
+  retirePaneWaves("stack");
+  paneIntentOpen = false;
+  detailIntentOpen = false;
+
+  if (reducedMotion) {
+    settlePaneBand("detail", false);
+    settlePaneBand("drawer", false);
+    return 0;
+  }
+
+  paneWaves.push({
+    id: ++paneWaveSeq,
+    band: "stack",
+    action: "close",
+    dir: -1,
+    left,
+    right,
+    x: source,
+    velocity: speed,
+    speed,
+    age: predecessor ? predecessor.age : 0,
+    strength: predecessor ? predecessor.strength : 0,
+    seed: predecessor ? predecessor.seed : Math.random() * 1000,
+    phase: predecessor ? predecessor.phase : Math.random() * Math.PI * 2
+  });
+  return duration;
+}
+
+function updatePaneWaves(dt) {
+  const lead = 1.15;
+  for (let w = paneWaves.length - 1; w >= 0; w--) {
+    const wave = paneWaves[w];
+    const { left, right } = wave;
+    wave.age += dt;
+    wave.x += wave.dir * wave.speed * dt;
+
+    const beyond = wave.dir > 0
+      ? Math.max(0, wave.x - (right - 1 + lead))
+      : Math.max(0, (left - lead) - wave.x);
+    /* The cell mask can finish before the light impulse does. Let the
+       remaining energy travel into the ambient field and settle over a
+       couple of seconds instead of popping off with the pane DOM. */
+    const tailSeconds = wave.action === "close" ? 2.4 : 1.8;
+    const finishAt = Math.max(lead + 2, wave.speed * tailSeconds);
+    const strengthTarget = beyond > 0 ? Math.max(0, 1 - beyond / finishAt) : 1;
+    const strengthRate = strengthTarget > wave.strength ? 8 : 1.6;
+    wave.strength += (strengthTarget - wave.strength) * (1 - Math.exp(-dt * strengthRate));
+
+    for (let j = 1; j < rows - 1; j++) {
+      for (let i = left; i < right; i++) {
+        const index = j * cols + i;
+        if (paneWaveEdge(wave, i, j) >= 0 && wave.id >= paneCellEvent[index]) {
+          paneCellEvent[index] = wave.id;
+          paneCellOpen[index] = wave.action === "open" ? 1 : 0;
+        }
+      }
+    }
+
+    if (beyond > finishAt && wave.strength < 0.02) paneWaves.splice(w, 1);
+  }
+}
+
+function paneWaveLight(i, j, activePane) {
+  let glow = 0;
+  for (const wave of paneWaves) {
+    const { left, right } = wave;
+    const inOwnBand = i >= left && i < right;
+    const inOpenWorld = !activePane && i >= right;
+    /* Never send the impulse left across existing text. The open side of
+       the stack is safe: there it can become part of the ambient field. */
+    if (!inOwnBand && !inOpenWorld) continue;
+    const width = paneWaveGlowWidth(wave, j);
+    const e = paneWaveEdge(wave, i, j);
+    let amt = Math.abs(e) <= width * 1.8
+      ? wipeGlow(e, width) * wave.strength
+      : 0;
+    if (wave.action === "close" && e > 0) {
+      const worldDistance = Math.max(0, i - (right - 1));
+      const worldFalloff = Math.exp(-worldDistance / 12);
+      const behind = sm(clamp01(e / Math.max(1, width)));
+      amt += 0.11 * behind * worldFalloff * wave.strength;
+    }
+    glow += amt;
+  }
+  return Math.min(1.25, glow);
+}
+
+function wipeGlow(e, width) {
+  const q = e / width;
+  return Math.exp(-q * q * 2.2) * 0.85;
+}
+
+function exposeLight(base, glow) {
+  const clamped = Math.max(0, Math.min(1, base));
+  return 1 - (1 - clamped) * Math.exp(-1.25 * glow);
+}
+
+function switchBandCenter(progress) {
+  const half = CFG.switchBandRows * 0.5;
+  const pad = half + CFG.switchFlowRows + CFG.switchFlexRows + 2;
+  return (1 - pad) + ((rows - 2 + pad) - (1 - pad)) * progress;
+}
+
+/* Signed distance inside the irregular ten-row switch banner. */
+function switchBandEdge(i, j, transition) {
+  const p = transition.vis;
+  const t = realT;
+  const seed = transition.seed;
+  const breath = 0.88 + 0.12 * Math.sin(t * 1.8 + transition.phase);
+  const center =
+    switchBandCenter(p) +
+    (fbm(i * 0.13 + seed, t * 0.2, 91.7 + seed) - 0.5) * 2 * CFG.switchFlowRows * breath +
+    Math.sin(i * 0.21 + t * 1.25 + transition.phase) * 1.05 +
+    Math.sin(i * 0.46 - t * 0.75 + seed) * 0.4;
+  const thicknessFlow =
+    (fbm(i * 0.14 + seed * 0.5, t * 0.17, 119.3 + seed) - 0.5) * 2 * CFG.switchFlexRows +
+    Math.sin(i * 0.27 - t + transition.phase) * 0.7;
+  const half = Math.max(
+    CFG.switchBandMinRows * 0.5,
+    CFG.switchBandRows * 0.5 * breath + thicknessFlow
+  );
+  const top = center - half;
+  const bottom = center + half;
+  return Math.min(j - top, bottom - j);
+}
+
+/* Sound toggle, <audio> element, and the reference site's ambient soundtrack
+   system were removed entirely: we have no licensed audio asset to ship.
+   editableTarget below is kept because the keydown handler further down
+   uses it to avoid hijacking typing in form fields. */
+function editableTarget(target) {
+  return target instanceof Element && Boolean(target.closest("input, textarea, select, [contenteditable]:not([contenteditable=\"false\"])"));
+}
+
+const live = { bass: 0, mid: 0, high: 0, total: 0 };
+let hueSpin = 0;
+
+function breathe(dt) {
+  /* Steady field with no periodic swell, beat ripples, or hue kicks. */
+  live.bass = 0.35;
+  live.mid = 0.35;
+  live.high = 0.35;
+  live.total = 0.35;
+  hueSpin += dt * CFG.react * 0.04;
+}
+
+const sparks = [];
+const WAKE_MAX = 28;
+const WAKE_GAP = 0.62;
+const WAKE_LIFE = 0.52;
+const WAKE_DELAY = 0.07;
+const wake = [];
+let dragging = false, lastTileKey = -1;
+
+function pointerOnField(cx, cy) {
+  if (!cols) return false;
+  const x = (cx + stage.scrollLeft - offX) / cell, y = (cy - offY) / cell;
+  const i = Math.floor(x), j = Math.floor(y);
+  const onDrawerText =
+    drawerId &&
+    i >= drawerL && i < drawerR &&
+    j >= 1 && j < rows - 1 &&
+    paneCellOpen[j * cols + i] === 1;
+  const onDetailText =
+    detailId &&
+    i >= detailL && i < detailR &&
+    j >= 1 && j < rows - 1 &&
+    paneCellOpen[j * cols + i] === 1;
+  if (onDrawerText || onDetailText) return false;
+  return x >= homeRight && x < cols - 1 && y >= 1 && y < rows - 1;
+}
+function stampWake(cx, cy, force) {
+  if (!pointerOnField(cx, cy)) return;
+  const x = (cx + stage.scrollLeft - offX) / cell, y = (cy - offY) / cell;
+  const last = wake[wake.length - 1];
+  if (!force && last && Math.hypot(x - last.x, y - last.y) < WAKE_GAP && realT - last.t < 0.035) return;
+  wake.push({ x, y, t: realT });
+  if (wake.length > WAKE_MAX) wake.shift();
+}
+function mouseSpark(cx, cy, strong, force) {
+  if (!pointerOnField(cx, cy)) return;
+  const x = (cx + stage.scrollLeft - offX) / cell, y = (cy - offY) / cell;
+  const key = ((x * 2) | 0) + ((y * 2) | 0) * 4096;
+  if (key === lastTileKey && !force) return;
+  lastTileKey = key;
+  sparks.push({ x, y, t: 0, r: strong ? 12 : 6.5, a: strong ? 0.85 : 0.38 });
+  if (sparks.length > 60) sparks.shift();
+}
+function onDown(e) {
+  if (deckEl.contains(e.target) || drawerEl.contains(e.target) || detailEl.contains(e.target)) return;
+  dragging = true;
+  stampWake(e.clientX, e.clientY, true);
+  mouseSpark(e.clientX, e.clientY, true, true);
+}
+function onMove(e) {
+  if (detailEl.contains(e.target)) return;
+  stampWake(e.clientX, e.clientY, false);
+  mouseSpark(e.clientX, e.clientY, dragging, false);
+}
+document.addEventListener("pointerdown", onDown, { passive: true });
+document.addEventListener("pointerup", () => { dragging = false; }, { passive: true });
+document.addEventListener("pointercancel", () => { dragging = false; }, { passive: true });
+document.addEventListener("pointermove", onMove, { passive: true });
+document.addEventListener("mousemove", onMove, { passive: true });
+
+/* ---- Layout ---- */
+let W, H, tile, gap, rad, cell, cols, rows, offX, offY, maxRevealD;
+let si = 0, sj = 0;
+
+function setGridVars() {
+  document.documentElement.style.setProperty("--tile", tile + "px");
+  document.documentElement.style.setProperty("--gap", gap + "px");
+  document.documentElement.style.setProperty("--cell", cell + "px");
+}
+
+function rebuildStrip() {
+  paneEls = PANE_ORDER.filter(id => opened.has(id)).map(id => paneById[id]);
+  for (let i = 0; i < paneEls.length; i++) stripEl.appendChild(paneEls[i]);
+  for (let i = 0; i < PANE_ORDER.length; i++) {
+    const id = PANE_ORDER[i];
+    if (!opened.has(id)) holdEl.appendChild(paneById[id]);
+  }
+}
+
+/* Panes open on visit and never close. Inserting to the left keeps the
+   focused pane visually still by shifting strip-x. */
+function ensureOpen(id) {
+  if (!paneById[id] || opened.has(id)) return;
+  const focusId = paneEls[targetPane] && paneEls[targetPane].id;
+  const focusOldIdx = focusId ? paneEls.findIndex(p => p.id === focusId) : -1;
+  opened.add(id);
+  rebuildStrip();
+  if (focusId && focusOldIdx >= 0) {
+    const focusNewIdx = paneEls.findIndex(p => p.id === focusId);
+    if (focusNewIdx >= 0 && focusNewIdx !== focusOldIdx) {
+      const d = (focusNewIdx - focusOldIdx) * paneStride;
+      stripX += d;
+      stripTarget += d;
+      stripFrom += d;
+      document.documentElement.style.setProperty("--strip-x", stripX + "px");
+    }
+  }
+}
+
+function goPane(to) {
+  let id;
+  if (typeof to === "number") {
+    if (!paneEls[to]) return;
+    id = paneEls[to].id;
+  } else {
+    id = to;
+  }
+  if (!paneById[id]) return;
+
+  ensureOpen(id);
+  const idx = paneEls.findIndex(p => p.id === id);
+  if (idx < 0) return;
+
+  targetPane = idx;
+  const next = targetPane * paneStride;
+  if (Math.abs(next - stripX) > 0.5) {
+    stripFrom = stripX;
+    stripTarget = next;
+    stripAnimT = 0;
+  } else {
+    stripX = stripTarget = next;
+    stripAnimT = 1;
+    document.documentElement.style.setProperty("--strip-x", stripX + "px");
+  }
+}
+
+function bootPanes() {
+  opened.clear();
+  opened.add("about");
+  rebuildStrip();
+  targetPane = 0;
+  stripX = stripTarget = stripFrom = 0;
+  stripAnimT = 1;
+}
+
+function mountDrawer(id) {
+  if (drawerId && drawerId !== id && paneById[drawerId]) holdEl.appendChild(paneById[drawerId]);
+  drawerId = id;
+  paneById[id].inert = false;
+  paneById[id].removeAttribute("aria-hidden");
+  paneById[id].style.clipPath = "";
+  paneById[id].style.pointerEvents = "";
+  drawerBodyEl.appendChild(paneById[id]);
+  drawerEl.classList.add("open");
+}
+
+function disposeDrawerLayer(layer, keep) {
+  if (layer === keep) return;
+  if (layer.id && paneById[layer.id] === layer) {
+    layer.inert = false;
+    layer.removeAttribute("aria-hidden");
+    layer.style.clipPath = "";
+    layer.style.pointerEvents = "";
+    holdEl.appendChild(layer);
+  } else {
+    layer.remove();
+  }
+}
+
+function settleDrawerLayers({ resetScroll = true } = {}) {
+  if (!drawerId || !paneById[drawerId]) return;
+  const canonical = paneById[drawerId];
+  Array.from(drawerBodyEl.children).forEach(layer => disposeDrawerLayer(layer, canonical));
+  canonical.inert = false;
+  canonical.removeAttribute("aria-hidden");
+  canonical.style.clipPath = "";
+  canonical.style.pointerEvents = "";
+  if (resetScroll) canonical.scrollTop = 0;
+  drawerBodyEl.appendChild(canonical);
+}
+
+function finishDrawerSwitch(transition) {
+  const idx = drawerSwitches.indexOf(transition);
+  if (idx < 0) return;
+  transition.layer.style.clipPath = "";
+
+  /* Once this layer reaches the bottom it fully covers every older layer,
+     so those can be retired while newer ripples keep running above it. */
+  let older = transition.layer.previousElementSibling;
+  while (older) {
+    const previous = older.previousElementSibling;
+    disposeDrawerLayer(older);
+    older = previous;
+  }
+  drawerSwitches.splice(idx, 1);
+
+  if (drawerSwitches.length === 0) {
+    settleDrawerLayers();
+    for (let k = 0; k < cache.length; k++) cache[k] = undefined;
+  }
+}
+
+function updateDrawerSwitchClip(transition) {
+  /* The straight DOM seam stays hidden in the much wider tile banner. */
+  const cutRows = switchBandCenter(transition.vis) - 1;
+  const cutPx = Math.max(0, Math.min(paneH, cutRows * cell));
+  transition.layer.style.clipPath = "inset(0 0 " + Math.max(0, paneH - cutPx) + "px 0)";
+}
+
+function startDrawerSwitch(id) {
+  const sourcePane = paneById[id];
+  if (!sourcePane) return;
+
+  /* A snapshot layer lets one flowing front replace the current page. Rapid
+     selections retarget that front without restarting or stacking another. */
+  const layer = sourcePane.cloneNode(true);
+  layer.removeAttribute("id");
+  layer.dataset.pageId = id;
+  layer.setAttribute("aria-hidden", "false");
+  layer.inert = false;
+  layer.scrollTop = 0;
+  layer.style.clipPath = "inset(0 0 100% 0)";
+  layer.style.pointerEvents = "auto";
+  drawerBodyEl.querySelectorAll(":scope > .pane").forEach(pane => {
+    pane.style.pointerEvents = "none";
+    pane.inert = true;
+    pane.setAttribute("aria-hidden", "true");
+  });
+  const transition = drawerSwitches[0];
+  if (transition) {
+    /* One light front owns this band. Rapid selections retarget that same
+       moving front instead of stacking several conflicting silhouettes. */
+    transition.layer.replaceWith(layer);
+    transition.layer = layer;
+    transition.to = id;
+    updateDrawerSwitchClip(transition);
+  } else {
+    drawerBodyEl.appendChild(layer);
+    drawerSwitches.push({
+      to: id,
+      layer,
+      p: 0,
+      vis: 0,
+      seed: Math.random() * 1000,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+  drawerId = id;
+  drawerEl.inert = false;
+  drawerEl.setAttribute("aria-hidden", "false");
+  drawerEl.classList.add("open");
+  layoutDeck();
+}
+
+function projectLinkForDetail(id) {
+  const projectsPane = paneById.projects;
+  return projectsPane && projectsPane.querySelector('a[data-detail="' + id + '"]');
+}
+
+function canRestoreDetailFocus(link) {
+  return !!(link && link.isConnected && drawerEl.contains(link) && !link.closest("[inert]"));
+}
+
+function focusDetailHeading(id) {
+  const pane = detailById[id];
+  const heading = pane && pane.querySelector(".name[tabindex]");
+  if (!heading || !detailEl.contains(heading) || detailId !== id || !detailIntentOpen) return;
+  heading.focus({ preventScroll: true });
+}
+
+function mountDetail(id) {
+  if (detailId && detailId !== id && detailById[detailId]) {
+    projectHoldEl.appendChild(detailById[detailId]);
+  }
+  detailId = id;
+  detailById[id].inert = false;
+  detailById[id].removeAttribute("aria-hidden");
+  detailById[id].style.clipPath = "";
+  detailById[id].style.pointerEvents = "";
+  detailBodyEl.appendChild(detailById[id]);
+  detailEl.classList.add("open");
+}
+
+function disposeDetailLayer(layer, keep) {
+  if (layer === keep) return;
+  if (layer.id && detailById[layer.id] === layer) {
+    layer.inert = false;
+    layer.removeAttribute("aria-hidden");
+    layer.style.clipPath = "";
+    layer.style.pointerEvents = "";
+    projectHoldEl.appendChild(layer);
+  } else {
+    layer.remove();
+  }
+}
+
+function settleDetailLayers({ resetScroll = true } = {}) {
+  if (!detailId || !detailById[detailId]) return;
+  const canonical = detailById[detailId];
+  Array.from(detailBodyEl.children).forEach(layer => disposeDetailLayer(layer, canonical));
+  canonical.inert = false;
+  canonical.removeAttribute("aria-hidden");
+  canonical.style.clipPath = "";
+  canonical.style.pointerEvents = "";
+  if (resetScroll) canonical.scrollTop = 0;
+  detailBodyEl.appendChild(canonical);
+}
+
+function finishDetailSwitch(transition) {
+  const idx = detailSwitches.indexOf(transition);
+  if (idx < 0) return;
+  transition.layer.style.clipPath = "";
+
+  let older = transition.layer.previousElementSibling;
+  while (older) {
+    const previous = older.previousElementSibling;
+    disposeDetailLayer(older);
+    older = previous;
+  }
+  detailSwitches.splice(idx, 1);
+
+  if (detailSwitches.length === 0) {
+    settleDetailLayers();
+    for (let k = 0; k < cache.length; k++) cache[k] = undefined;
+  }
+}
+
+function updateDetailSwitchClip(transition) {
+  const cutRows = switchBandCenter(transition.vis) - 1;
+  const cutPx = Math.max(0, Math.min(paneH, cutRows * cell));
+  transition.layer.style.clipPath = "inset(0 0 " + Math.max(0, paneH - cutPx) + "px 0)";
+}
+
+function startDetailSwitch(id) {
+  const sourcePane = detailById[id];
+  if (!sourcePane) return;
+
+  const layer = sourcePane.cloneNode(true);
+  layer.removeAttribute("id");
+  layer.dataset.detailId = id;
+  layer.setAttribute("aria-hidden", "false");
+  layer.inert = false;
+  layer.scrollTop = 0;
+  layer.style.clipPath = "inset(0 0 100% 0)";
+  layer.style.pointerEvents = "auto";
+  detailBodyEl.querySelectorAll(":scope > .pane").forEach(pane => {
+    pane.style.pointerEvents = "none";
+    pane.inert = true;
+    pane.setAttribute("aria-hidden", "true");
+  });
+  const transition = detailSwitches[0];
+  if (transition) {
+    transition.layer.replaceWith(layer);
+    transition.layer = layer;
+    transition.to = id;
+    updateDetailSwitchClip(transition);
+  } else {
+    detailBodyEl.appendChild(layer);
+    detailSwitches.push({
+      to: id,
+      layer,
+      p: 0,
+      vis: 0,
+      seed: Math.random() * 1000,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+  detailId = id;
+  detailEl.inert = false;
+  detailEl.setAttribute("aria-hidden", "false");
+  detailEl.classList.add("open");
+  layoutDeck();
+}
+
+function openDetail(id, trigger, { focusHeading = true } = {}) {
+  if (!detailById[id] || drawerId !== "projects") return;
+  if (id === detailId && detailIntentOpen) {
+    closeDetail();
+    return;
+  }
+
+  /* Switch layers are temporary clones. Keep focus restoration anchored to
+     the canonical Projects link that will remain after the wipe settles. */
+  detailReturnLink = projectLinkForDetail(id) || trigger;
+  detailRestoreFocus = true;
+  detailFocusPending = focusHeading ? id : null;
+
+  if (id === detailId) {
+    detailEl.classList.add("open");
+    emitPaneWave("open", "detail");
+    layoutDeck();
+    panToDepth(2, { opening: true });
+    syncDetailLinks();
+    return;
+  }
+
+  if (detailId) {
+    if (!detailIntentOpen) {
+      emitPaneWave("open", "detail");
+    }
+    startDetailSwitch(id);
+  } else {
+    mountDetail(id);
+    emitPaneWave("open", "detail");
+  }
+
+  layoutDeck();
+  panToDepth(2, { opening: true });
+  syncDetailLinks();
+}
+
+function finishDetailClose() {
+  if (!detailId) return;
+  const returnLink = detailReturnLink;
+  const restore = detailRestoreFocus;
+
+  detailSwitches.splice(0);
+  Array.from(detailBodyEl.children).forEach(layer => disposeDetailLayer(layer));
+  /* The content is gone, but the optical tail remains part of the world
+     until updatePaneWaves lets it settle naturally. */
+  markPaneBand("detail", false);
+  detailId = null;
+  detailIntentOpen = false;
+  detailFocusPending = null;
+  detailReturnLink = null;
+  detailRestoreFocus = true;
+  detailEl.classList.remove("open");
+  detailEl.setAttribute("aria-hidden", "true");
+  detailEl.inert = true;
+  layoutDeck();
+  if (stage.scrollLeft > clampCameraX(stage.scrollLeft) + 0.5) {
+    panToDepth(paneIntentOpen ? 1 : 0);
+  }
+  syncDetailLinks();
+
+  if (restore && canRestoreDetailFocus(returnLink) && drawerId === "projects" && paneIntentOpen) {
+    requestAnimationFrame(() => returnLink.focus({ preventScroll: true }));
+  }
+}
+
+function closeDetail({ restoreFocus = true } = {}) {
+  if (!detailId) return;
+  detailRestoreFocus = detailRestoreFocus && restoreFocus;
+  detailFocusPending = null;
+  detailEl.setAttribute("aria-hidden", "true");
+  detailEl.inert = true;
+
+  if (detailRestoreFocus && canRestoreDetailFocus(detailReturnLink) &&
+      drawerId === "projects" && paneIntentOpen) {
+    detailReturnLink.focus({ preventScroll: true });
+    detailRestoreFocus = false;
+  }
+
+  if (!detailIntentOpen) {
+    syncDetailLinks();
+    return;
+  }
+  if (detailSwitches.length) {
+    detailSwitches.splice(0);
+    settleDetailLayers();
+  }
+  emitPaneWave("close", "detail");
+  panToDepth(1);
+  syncDetailLinks();
+}
+
+function resumeDrawerFromStack() {
+  if (paneIntentOpen) return false;
+  const stack = takePaneWave("stack");
+  if (!stack) return false;
+
+  /* A stack close owns both columns. Reopening the parent splits that one
+     owner into a continuing child cleanup and, if needed, a parent reversal. */
+  detailIntentOpen = false;
+  if (detailId) {
+    detailEl.setAttribute("aria-hidden", "true");
+    detailEl.inert = true;
+    if (paneCellsMatch(false, "detail")) settlePaneBand("detail", false);
+    else emitPaneWave("close", "detail", { predecessor: stack });
+  }
+
+  if (paneCellsMatch(true, "drawer")) {
+    paneIntentOpen = true;
+    settlePaneBand("drawer", true);
+  } else {
+    emitPaneWave("open", "drawer", { predecessor: stack });
+  }
+  return true;
+}
+
+function openDrawer(id) {
+  if (id !== "projects") closeDetail({ restoreFocus: false });
+  if (!paneById[id] || id === "about") {
+    closeDrawer();
+    return;
+  }
+  const resumedFromStack = resumeDrawerFromStack();
+  if (id === drawerId) {
+    if (!paneIntentOpen && !resumedFromStack) emitPaneWave("open");
+    drawerEl.classList.add("open");
+    layoutDeck();
+    panToDepth(1, { opening: true });
+    return;
+  }
+  /* Keep both pages stacked while one flowing banner replaces the old
+     text with the new text row by row. */
+  if (drawerId) {
+    if (!paneIntentOpen && !resumedFromStack) emitPaneWave("open");
+    startDrawerSwitch(id);
+    panToDepth(1, { opening: true });
+    return;
+  }
+  mountDrawer(id);
+  if (!resumedFromStack) emitPaneWave("open");
+  layoutDeck();
+  panToDepth(1, { opening: true });
+}
+
+function closeDrawer() {
+  if (!drawerId || !paneIntentOpen) return;
+  drawerEl.inert = true;
+  drawerEl.setAttribute("aria-hidden", "true");
+  if (drawerSwitches.length) {
+    drawerSwitches.splice(0);
+    settleDrawerLayers();
+  }
+  if (detailId) {
+    detailRestoreFocus = false;
+    detailFocusPending = null;
+    detailEl.setAttribute("aria-hidden", "true");
+    detailEl.inert = true;
+    if (detailSwitches.length) {
+      detailSwitches.splice(0);
+      settleDetailLayers();
+    }
+    const duration = emitCascadeClose();
+    panToDepth(0, { duration });
+    syncDetailLinks();
+  } else {
+    emitPaneWave("close");
+    panToDepth(0);
+  }
+  applyWork(null, true, CFG.revealIn);
+}
+
+function finishClose() {
+  /* Detaching text and exhausting light energy are separate moments. */
+  markPaneBand("drawer", false);
+  if (drawerId && paneById[drawerId]) holdEl.appendChild(paneById[drawerId]);
+  drawerId = null;
+  paneIntentOpen = false;
+  drawerEl.classList.remove("open");
+  layoutDeck();
+  if (stage.scrollLeft > clampCameraX(stage.scrollLeft) + 0.5) panToDepth(0);
+  syncWorkLinks();
+}
+
+function normalizeRoutePath(path) {
+  let normalized = (path || "/").replace(/\/{2,}/g, "/");
+  if (normalized.length > 1) normalized = normalized.replace(/\/+$/, "");
+  return normalized || "/";
+}
+
+function routeFromLocation() {
+  let legacyPath = null;
+  if (location.hash.length > 1) {
+    let hash = location.hash.slice(1);
+    try { hash = decodeURIComponent(hash); } catch (_) {}
+    legacyPath = LEGACY_HASH_PATHS[hash] || null;
+  }
+  const normalized = legacyPath || normalizeRoutePath(location.pathname);
+  const route = ROUTE_BY_PATH[normalized] || ROUTE_BY_PATH["/"];
+  return {
+    route,
+    needsReplace: route.path !== location.pathname || !!location.hash
+  };
+}
+
+function syncRouteMetadata(route) {
+  const pageTitle = route.path === "/" ? "Rohan Salunkhe" : route.title + " | Rohan Salunkhe";
+  const pageDescription = route.description || SITE_DESCRIPTION;
+  const canonicalUrl = "https://rohansalunkhe.dev" + route.path;
+  document.title = pageTitle;
+  const description = document.querySelector('meta[name="description"]');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  const ogDescription = document.querySelector('meta[property="og:description"]');
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+  const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+  if (description) description.content = pageDescription;
+  if (canonical) canonical.href = canonicalUrl;
+  if (ogTitle) ogTitle.content = pageTitle;
+  if (ogDescription) ogDescription.content = pageDescription;
+  if (ogUrl) ogUrl.content = canonicalUrl;
+  if (twitterTitle) twitterTitle.content = pageTitle;
+  if (twitterDescription) twitterDescription.content = pageDescription;
+}
+
+function applyRoute(route, { trigger = null, restoreFocus = false, focusHeading = false } = {}) {
+  if (route.detailId) {
+    applyWork(null, true);
+    openDrawer("projects");
+    if (detailId !== route.detailId || !detailIntentOpen) {
+      openDetail(route.detailId, trigger || projectLinkForDetail(route.detailId), { focusHeading });
+    }
+    syncWorkLinks();
+    syncDetailLinks();
+    return;
+  }
+
+  if (!route.drawerId) {
+    if (drawerId) closeDrawer();
+    else if (detailId) closeDetail({ restoreFocus });
+    applyWork(null, true, CFG.revealIn);
+  } else {
+    if (detailId) closeDetail({ restoreFocus });
+    const paletteDuration = drawerId && paneIntentOpen ? CFG.switchIn : CFG.revealIn;
+    applyWork(route.workId || null, true, paletteDuration);
+    openDrawer(route.drawerId);
+  }
+  syncWorkLinks();
+  syncDetailLinks();
+}
+
+function navigateToPath(path, options = {}) {
+  const normalized = normalizeRoutePath(path);
+  const route = ROUTE_BY_PATH[normalized] || ROUTE_BY_PATH["/"];
+  const historyMode = options.historyMode || "push";
+  const alreadyCanonical = location.pathname === route.path && !location.hash && !location.search;
+
+  applyRoute(route, options);
+  if (historyMode === "replace") {
+    history.replaceState({ siteRoute: route.path }, "", route.path);
+  } else if (historyMode === "push" && !alreadyCanonical) {
+    history.pushState({ siteRoute: route.path }, "", route.path);
+  }
+  syncRouteMetadata(route);
+}
+
+function hydrateRoute({ initial = false } = {}) {
+  const { route, needsReplace } = routeFromLocation();
+  const routeUrl = route.path + location.search;
+  const restoreFocus = route.path === "/projects" &&
+    drawerId === "projects" && detailIntentOpen;
+  applyRoute(route, { restoreFocus });
+
+  if (initial) {
+    /* A direct URL is the initial composition, not a replay of clicks from
+       home. Mount it fully, then let the one opening splash reveal it. */
+    paneWaves.length = 0;
+    if (drawerId) settlePaneBand("drawer", true);
+    if (detailId) settlePaneBand("detail", true);
+    lutFrom.set(lutTo);
+    lutT = 1;
+    workSeed = workSeedTo;
+    layoutDeck();
+    ensurePaneCells();
+    panToDepth(detailId ? 2 : drawerId ? 1 : 0, {
+      animate: false,
+      opening: !!(detailId || drawerId)
+    });
+    updateRevealGeometry();
+    syncPaneInteractivity();
+  }
+  if (needsReplace) history.replaceState({ siteRoute: route.path }, "", routeUrl);
+  else if (!history.state || history.state.siteRoute !== route.path) {
+    history.replaceState({ siteRoute: route.path }, "", routeUrl);
+  }
+  syncRouteMetadata(route);
+}
+
+function cameraTargetForDepth(depth) {
+  if (depth <= 0) return 0;
+  const paneLeft = sidePad + depth * paneStride;
+  const paneRight = sidePad + depth * paneStride + paneW;
+
+  /* After the detail pane closes, place its surviving parent one cell in
+     from the left. That small overlap keeps the first pane visibly connected
+     to it instead of landing directly on the viewport edge. */
+  if (depth === 1 && paneRight + cell > viewportW) {
+    return clampCameraX(paneLeft - cell);
+  }
+
+  /* Wider views keep the whole surviving stack and its outer cell visible. */
+  return clampCameraX(paneRight + cell - viewportW);
+}
+
+function cameraTargetForPaneCenter(depth) {
+  const paneCenter = sidePad + depth * paneStride + paneW * 0.5;
+  return clampCameraX(paneCenter - viewportW * 0.5);
+}
+
+function cameraTargetForOpening(depth) {
+  const current = clampCameraX(stage.scrollLeft);
+  const paneLeft = sidePad + depth * paneStride;
+  const requestedRoom = 400;
+
+  /* Keep 300px of pane plus roughly 100px of lights in view. If the
+     current camera already satisfies that range, it does not move. */
+  if (viewportW >= requestedRoom) {
+    const firstCameraWithRoom = paneLeft + requestedRoom - viewportW;
+    const lastCameraWithPane = paneLeft;
+    if (current < firstCameraWithRoom - 0.5) return clampCameraX(firstCameraWithRoom);
+    if (current > lastCameraWithPane + 0.5) return clampCameraX(lastCameraWithPane);
+    return current;
+  }
+
+  /* A sub-400px viewport cannot show the whole requested composition.
+     Center the pane so it remains complete and the spare light is balanced. */
+  return cameraTargetForPaneCenter(depth);
+}
+
+function ambientLightCols() {
+  /* The final border is part of the requested 80% runway. */
+  return Math.max(1, Math.round((viewportW * 0.8 - cell) / cell));
+}
+
+function clampCameraX(x) {
+  const worldMax = Math.max(0, worldW - viewportW);
+  const lightBorderCol = colorLeft + ambientLightCols();
+  const lightWindowEnd = offX + lightBorderCol * cell + tile;
+  const max = Math.min(worldMax, Math.max(0, lightWindowEnd - viewportW));
+  return Math.max(0, Math.min(max, x));
+}
+
+function paneWavePixelSpeed() {
+  const lead = 1.15;
+  return ((drawerCols + lead * 2) * cell) / CFG.revealIn;
+}
+
+function cameraTravelDuration(target) {
+  const distance = Math.abs(target - stage.scrollLeft);
+  if (distance < 0.5) return 0;
+  const glideLinearFactor = 1 / (1 - CFG.paneAccel);
+  return Math.max(0.28, distance * glideLinearFactor / paneWavePixelSpeed());
+}
+
+function cameraPositionAt(u) {
+  const u2 = u * u;
+  const u3 = u2 * u;
+  const h00 = 2 * u3 - 3 * u2 + 1;
+  const h10 = u3 - 2 * u2 + u;
+  const h01 = -2 * u3 + 3 * u2;
+  return h00 * cameraFrom +
+    h10 * cameraDuration * cameraStartVelocity +
+    h01 * cameraTarget;
+}
+
+function cameraAutoVelocity() {
+  if (cameraAnimT >= 1 || cameraDuration <= 0) return 0;
+  const u = cameraAnimT;
+  const u2 = u * u;
+  const dh00 = 6 * u2 - 6 * u;
+  const dh10 = 3 * u2 - 4 * u + 1;
+  const dh01 = -6 * u2 + 6 * u;
+  return (dh00 * cameraFrom +
+    dh10 * cameraDuration * cameraStartVelocity +
+    dh01 * cameraTarget) / cameraDuration;
+}
+
+function cancelCameraPan() {
+  cameraAnimT = 1;
+  cameraStartVelocity = 0;
+  cameraInertiaVelocity = 0;
+  cameraOpening = false;
+  cameraFrom = cameraTarget = stage.scrollLeft;
+}
+
+function panToDepth(depth, { animate = true, duration = null, opening = false } = {}) {
+  const next = opening ? cameraTargetForOpening(depth) : cameraTargetForDepth(depth);
+  const inheritedVelocity = cameraAutoVelocity() || cameraInertiaVelocity;
+  cameraOpening = opening;
+  cameraFrom = stage.scrollLeft;
+  cameraTarget = next;
+  cameraInertiaVelocity = 0;
+  const naturalDuration = cameraTravelDuration(next);
+  cameraDuration = duration == null
+    ? naturalDuration
+    : Math.min(naturalDuration || duration, Math.max(0, duration));
+  if (!animate || reducedMotion || Math.abs(cameraTarget - cameraFrom) < 0.5) {
+    cameraAnimT = 1;
+    cameraStartVelocity = 0;
+    stage.scrollLeft = cameraTarget;
+    syncPaneCloseControls();
+    return;
+  }
+  const velocityLimit = paneWavePixelSpeed() * 1.25;
+  cameraDuration = Math.max(0.01, cameraDuration);
+  const delta = cameraTarget - cameraFrom;
+  const directedVelocity = inheritedVelocity * delta > 0 ? inheritedVelocity : 0;
+  const monotonicLimit = 3 * Math.abs(delta) / cameraDuration;
+  const startVelocityLimit = Math.min(velocityLimit, monotonicLimit);
+  cameraStartVelocity = Math.max(
+    -startVelocityLimit,
+    Math.min(startVelocityLimit, directedVelocity)
+  );
+  cameraAnimT = 0;
+}
+
+function layoutDeck() {
+  /* Every pane is one stable 300px unit. On screens too narrow to fit that
+     unit plus its border cells, use the nearest grid width around 90%. */
+  const innerCols = Math.max(1, viewCols - 2);
+  const fixedSidebarCols = Math.round((300 + gap) / cell);
+  const fixedPaneW = fixedSidebarCols * cell - gap;
+  const fixedFits = offX + cell + fixedPaneW + cell <= viewportW;
+  const compactSidebarCols = Math.max(1, Math.round((viewportW * 0.9 + gap) / cell));
+  const visibleSidebarCols = Math.max(
+    1,
+    Math.floor((viewportW - offX - cell * 2 + gap) / cell)
+  );
+  const sidebarCols = fixedFits
+    ? fixedSidebarCols
+    : Math.min(compactSidebarCols, visibleSidebarCols);
+  drawerCols = sidebarCols;
+  homeRight = 1 + sidebarCols;
+  drawerL = homeRight;
+  drawerR = homeRight + sidebarCols;
+  detailCompact = innerCols < sidebarCols * 3;
+  detailL = drawerR;
+  detailR = detailL + sidebarCols;
+  colorLeft = detailId ? detailR : drawerId ? drawerR : homeRight;
+  const mobilePaneLayout = innerCols < sidebarCols * 3;
+  stage.classList.toggle("mobile-panes", mobilePaneLayout);
+
+  sidePad = offX + cell;
+  paneTop = offY + cell;
+  paneW = sidebarCols * cell - gap;
+  paneH = Math.max(tile, H - paneTop - cell);
+  paneGap = gap;
+  paneStride = sidebarCols * cell;
+
+  const finalPaneRight = sidePad + paneStride * 2 + paneW;
+  /* The ambient runway is 80% of a viewport. At its far edge the previous
+     pane still peeks through on the left instead of yielding an all-light view. */
+  const desiredWorldW = Math.max(viewportW, finalPaneRight + viewportW * 0.8);
+  cols = Math.max(viewCols, Math.ceil((desiredWorldW - offX * 2 + gap) / cell));
+  worldW = cols * cell - gap + offX * 2;
+  W = worldW;
+
+  const root = document.documentElement.style;
+  root.setProperty("--world-w", worldW + "px");
+  root.setProperty("--pane-w", paneW + "px");
+  root.setProperty("--pane-h", paneH + "px");
+  root.setProperty("--pane-gap", paneGap + "px");
+  root.setProperty("--pane-top", paneTop + "px");
+  root.setProperty("--side-pad", sidePad + "px");
+  root.setProperty("--drawer-left", sidePad + paneStride + "px");
+  root.setProperty("--detail-left", sidePad + paneStride * 2 + "px");
+  detailEl.classList.toggle("compact", detailCompact);
+
+  stripTarget = targetPane * paneStride;
+  stripX = stripFrom = stripTarget;
+  stripAnimT = 1;
+  root.setProperty("--strip-x", stripX + "px");
+  drawerSwitches.forEach(updateDrawerSwitchClip);
+  detailSwitches.forEach(updateDetailSwitchClip);
+  syncPaneCloseControls();
+}
+
+function syncPaneCloseControls() {
+  /* Mounted panes remain visible through their cleanup wave, so controls
+     leave with that wave instead of popping away at click time. */
+  const activeDepth = detailId ? 2 : drawerId ? 1 : 0;
+  const viewLeft = stage.scrollLeft;
+  const viewRight = viewLeft + viewportW;
+  const stackLeft = sidePad;
+  const stackRight = sidePad + activeDepth * paneStride + paneW;
+  const allPanesVisible = stackLeft >= viewLeft - 0.5 &&
+    stackRight <= viewRight + 0.5;
+  const closing = (detailId && !detailIntentOpen) || (drawerId && !paneIntentOpen);
+  const keepVisibleThroughClose = closing && stage.classList.contains("stack-clipped");
+  const stackClipped = activeDepth > 0 && (!allPanesVisible || keepVisibleThroughClose);
+  stage.classList.toggle("stack-clipped", stackClipped);
+}
+
+function updateRevealGeometry() {
+  const revealRight = Math.max(
+    colorLeft,
+    Math.min(cols - 2, colorLeft + ambientLightCols() - 1)
+  );
+  si = (colorLeft + revealRight) * 0.5;
+  sj = (rows - 1) * 0.5;
+  maxRevealD = Math.max(
+    Math.hypot(colorLeft - si, 1 - sj),
+    Math.hypot(revealRight - si, 1 - sj),
+    Math.hypot(colorLeft - si, rows - 2 - sj),
+    Math.hypot(revealRight - si, rows - 2 - sj)
+  ) + CFG.jagAmp * 0.5 + CFG.revealSoft;
+}
+
+function setup() {
+  const nextViewportW = stage.clientWidth;
+  const nextH = stage.clientHeight;
+  const hadLayout = viewportW > 0 && H > 0;
+  const previousViewportW = viewportW;
+  const previousPaneStride = paneStride;
+  const previousScroll = stage.scrollLeft;
+  const widthChanged = hadLayout && Math.abs(nextViewportW - previousViewportW) > 0.5;
+  const cameraWasAnimating = cameraAnimT < 1;
+  const cameraWasOpening = cameraWasAnimating && cameraOpening;
+  const inheritedCameraVelocity = cameraAutoVelocity() || cameraInertiaVelocity;
+
+  viewportW = nextViewportW;
+  H = nextH;
+  tile = CFG.tile; gap = CFG.gap; rad = Math.min(CFG.radius, tile / 2); cell = tile + gap;
+  viewCols = Math.max(1, Math.ceil(viewportW / cell));
+  rows = Math.max(1, Math.ceil(H / cell));
+  offX = 0;
+  offY = 0;
+  if (widthChanged) {
+    drawerSwitches.splice(0);
+    detailSwitches.splice(0);
+    if (drawerId) settleDrawerLayers({ resetScroll: false });
+    if (detailId) settleDetailLayers({ resetScroll: false });
+  }
+  layoutDeck();
+  const maxCanvasPixels = 16000000;
+  const maxCanvasDimension = 16384;
+  const dpr = Math.max(0.5, Math.min(
+    devicePixelRatio || 1,
+    2,
+    Math.sqrt(maxCanvasPixels / Math.max(1, W * H)),
+    maxCanvasDimension / Math.max(1, W),
+    maxCanvasDimension / Math.max(1, H)
+  ));
+  wall.width = W * dpr; wall.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  setGridVars();
+  ensurePaneCells();
+  updateRevealGeometry();
+
+  const activeDepth = detailIntentOpen ? 2 : paneIntentOpen ? 1 : 0;
+  if (!hadLayout) {
+    panToDepth(activeDepth, { animate: false });
+  } else if (widthChanged) {
+    stage.scrollLeft = clampCameraX(previousScroll);
+    let cameraReanchored = false;
+    if (!cameraWasAnimating) {
+      const resizeTarget = activeDepth > 0
+        ? cameraTargetForOpening(activeDepth)
+        : 0;
+      cameraReanchored = Math.abs(resizeTarget - stage.scrollLeft) > 0.5;
+      stage.scrollLeft = resizeTarget;
+    }
+    cameraAnimT = 1;
+    cameraFrom = cameraTarget = stage.scrollLeft;
+    cameraStartVelocity = 0;
+    cameraInertiaVelocity = cameraReanchored
+      ? 0
+      : inheritedCameraVelocity *
+        (previousPaneStride > 0 ? paneStride / previousPaneStride : 1);
+    if (cameraWasAnimating) panToDepth(activeDepth, { opening: cameraWasOpening });
+  } else {
+    /* Height-only visualViewport changes are usually browser chrome or a
+       keyboard. They must not steal horizontal position or cancel motion. */
+    stage.scrollLeft = clampCameraX(previousScroll);
+  }
+}
+
+let openT = 0, sweepDone = false;
+
+const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+let reducedMotion = motionPreference.matches;
+let motion = reducedMotion ? 0 : 1;
+function syncMotionPreference(event) {
+  reducedMotion = event.matches;
+  motion = reducedMotion ? 0 : 1;
+  if (reducedMotion) {
+    if (drawerId) settlePaneBand("drawer", paneIntentOpen);
+    if (detailId) settlePaneBand("detail", detailIntentOpen);
+    panToDepth(detailIntentOpen ? 2 : paneIntentOpen ? 1 : 0, {
+      animate: false,
+      opening: cameraAnimT < 1 && cameraOpening
+    });
+  }
+}
+if (motionPreference.addEventListener) motionPreference.addEventListener("change", syncMotionPreference);
+else motionPreference.addListener(syncMotionPreference);
+let raf = 0, last = performance.now(), realT = 0, wtC = 0, wtW = 0;
+let setupPending = false;
+const sm = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+const clamp01 = u => u <= 0 ? 0 : u >= 1 ? 1 : u;
+
+/* Trapezoidal velocity: brief acceleration, linear travel, brief stop.
+   Unlike a quadratic ease, it does not crawl across the final tiles. */
+let favLink = document.querySelector('link[rel="icon"]');
+const favCanvas = document.createElement("canvas");
+favCanvas.width = 64;
+favCanvas.height = 64;
+const favCtx = favCanvas.getContext("2d");
+let cornerFill = "#17c3a2";
+let favShown = "";
+let favAt = -1;
+let favUrl = "";
+/* No favicon.gif art asset; fall back to the same inline SVG monogram
+   used as the static <link rel="icon"> in <head>. */
+const FAV_GIF = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140c08'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E";
+
+function fillSquircle(ctx, x, y, size) {
+  const n = 3.6;
+  const r = size * 0.5;
+  const cx = x + r, cy = y + r;
+  ctx.beginPath();
+  for (let k = 0; k <= 64; k++) {
+    const t = (k / 64) * Math.PI * 2;
+    const ct = Math.cos(t), st = Math.sin(t);
+    const px = cx + r * Math.sign(ct) * Math.pow(Math.abs(ct), 2 / n);
+    const py = cy + r * Math.sign(st) * Math.pow(Math.abs(st), 2 / n);
+    if (k === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function setFaviconHref(href, type) {
+  const next = document.createElement("link");
+  next.rel = "icon";
+  next.type = type;
+  next.sizes = "64x64";
+  next.href = href;
+  favLink.replaceWith(next);
+  favLink = next;
+}
+
+function showFallbackFavicon() {
+  favShown = "";
+  if (favUrl) { URL.revokeObjectURL(favUrl); favUrl = ""; }
+  setFaviconHref(FAV_GIF, "image/svg+xml");
+}
+
+function updateFavicon(fill) {
+  if (!favLink || !fill || document.hidden) return;
+  if (fill === favShown || realT - favAt < 0.24) return;
+  favShown = fill;
+  favAt = realT;
+  favCtx.clearRect(0, 0, 64, 64);
+  favCtx.fillStyle = fill;
+  fillSquircle(favCtx, 2, 2, 60);
+  favCanvas.toBlob(blob => {
+    if (!blob || document.hidden) return;
+    if (favUrl) URL.revokeObjectURL(favUrl);
+    favUrl = URL.createObjectURL(blob);
+    setFaviconHref(favUrl, "image/png");
+  }, "image/png");
+}
+
+function paneGlide(t) {
+  const a = CFG.paneAccel;
+  const v = 1 / (1 - a);
+  if (t < a) return 0.5 * (v / a) * t * t;
+  if (t <= 1 - a) return 0.5 * a * v + (t - a) * v;
+  const q = 1 - t;
+  return 1 - 0.5 * (v / a) * q * q;
+}
+
+function syncPaneInteractivity() {
+  const drawerReady = !!drawerId && paneIntentOpen;
+  const detailReady = !!detailId && detailIntentOpen &&
+    drawerReady && drawerId === "projects";
+  const detailFocusReady = detailReady && detailSwitches.length === 0 &&
+    paneCellsMatch(true, "detail");
+
+  if (drawerEl.inert === drawerReady) drawerEl.inert = !drawerReady;
+  const drawerHidden = drawerReady ? "false" : "true";
+  if (drawerEl.getAttribute("aria-hidden") !== drawerHidden) {
+    drawerEl.setAttribute("aria-hidden", drawerHidden);
+  }
+
+  if (detailEl.inert === detailReady) detailEl.inert = !detailReady;
+  const detailHidden = detailReady ? "false" : "true";
+  if (detailEl.getAttribute("aria-hidden") !== detailHidden) {
+    detailEl.setAttribute("aria-hidden", detailHidden);
+  }
+
+  if (detailFocusReady && detailFocusPending === detailId) {
+    const id = detailFocusPending;
+    detailFocusPending = null;
+    requestAnimationFrame(() => focusDetailHeading(id));
+  }
+}
+
+function frame(now) {
+  if (setupPending) {
+    setupPending = false;
+    setup();
+  }
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now; realT += dt;
+
+  if (!reducedMotion) breathe(dt);
+  openT += dt;
+
+  updatePaneWaves(reducedMotion ? Math.max(dt, 1) : dt);
+  colorLeft = detailId ? detailR : drawerId ? drawerR : homeRight;
+
+  if (drawerSwitches.length) {
+    const dur = reducedMotion ? 0.01 : CFG.switchIn;
+    const completed = [];
+    for (const transition of drawerSwitches) {
+      transition.p = Math.min(1, transition.p + dt / dur);
+      transition.vis = reducedMotion ? transition.p : paneGlide(transition.p);
+      updateDrawerSwitchClip(transition);
+      if (transition.p >= 1) completed.push(transition);
+    }
+    completed.forEach(finishDrawerSwitch);
+  }
+
+  if (detailSwitches.length) {
+    const dur = reducedMotion ? 0.01 : CFG.switchIn;
+    const completed = [];
+    for (const transition of detailSwitches) {
+      transition.p = Math.min(1, transition.p + dt / dur);
+      transition.vis = reducedMotion ? transition.p : paneGlide(transition.p);
+      updateDetailSwitchClip(transition);
+      if (transition.p >= 1) completed.push(transition);
+    }
+    completed.forEach(finishDetailSwitch);
+  }
+
+  if (!detailIntentOpen && detailId &&
+      paneCellsMatch(false, "detail") && detailSwitches.length === 0) {
+    finishDetailClose();
+  }
+  if (!paneIntentOpen && drawerId && !detailId &&
+      paneCellsMatch(false) && drawerSwitches.length === 0) {
+    finishClose();
+  }
+  syncPaneInteractivity();
+
+  while (wake.length && realT - wake[0].t > WAKE_LIFE) wake.shift();
+  if (lutT < 1) {
+    lutT = Math.min(1, lutT + dt / (reducedMotion ? 0.01 : lutDur));
+    if (lutT === 1) for (let k = 0; k < cache.length; k++) cache[k] = undefined;
+  }
+  const seedDelta = workSeedTo - workSeed;
+  const seedStep = (reducedMotion ? 1000 : 1.8) * dt;
+  if (Math.abs(seedDelta) <= seedStep) workSeed = workSeedTo;
+  else workSeed += Math.sign(seedDelta) * seedStep;
+
+  if (stripAnimT < 1) {
+    const dur = reducedMotion ? 0.12 : CFG.paneAnimDur;
+    stripAnimT = Math.min(1, stripAnimT + dt / dur);
+    const u = paneGlide(stripAnimT);
+    stripX = stripFrom + (stripTarget - stripFrom) * u;
+    document.documentElement.style.setProperty("--strip-x", stripX + "px");
+  } else if (stripX !== stripTarget) {
+    stripX = stripTarget;
+    document.documentElement.style.setProperty("--strip-x", stripX + "px");
+  }
+
+  if (cameraAnimT < 1) {
+    const dur = reducedMotion ? 0.01 : cameraDuration || CFG.paneAnimDur;
+    cameraAnimT = Math.min(1, cameraAnimT + dt / dur);
+    stage.scrollLeft = clampCameraX(
+      reducedMotion ? cameraTarget : cameraPositionAt(cameraAnimT)
+    );
+    if (cameraAnimT >= 1) {
+      stage.scrollLeft = cameraTarget;
+      cameraStartVelocity = 0;
+      cameraFrom = cameraTarget;
+    }
+  } else if (Math.abs(cameraInertiaVelocity) > 0) {
+    const previous = stage.scrollLeft;
+    const next = clampCameraX(previous + cameraInertiaVelocity * dt);
+    stage.scrollLeft = next;
+    if (Math.abs(next - previous) < 0.01) {
+      cameraInertiaVelocity = 0;
+    } else {
+      cameraInertiaVelocity *= Math.exp(-dt / 0.24);
+      if (Math.abs(cameraInertiaVelocity) < 12) cameraInertiaVelocity = 0;
+    }
+  }
+  syncPaneCloseControls();
+
+  const R = CFG.react * motion;
+  const swell = 1 + CFG.swellSpeed * R * live.total * live.total;
+
+  wtC += dt * motion * CFG.speed * swell;
+  wtW += dt * motion * CFG.speed * swell;
+
+  const revealP = reducedMotion ? 1 : sm(openT / CFG.revealIn);
+  if (revealP >= 1) sweepDone = true;
+
+  const th = CFG.threshold;
+  const floor = CFG.floor;
+  const env = 0.75 * live.bass + 0.25 * live.mid;
+  const glowNow = 1 - Math.min(0.6, CFG.dimQuiet * R) * (1 - env);
+
+  for (let k = sparks.length - 1; k >= 0; k--) { sparks[k].t += dt; if (sparks[k].t > 1.5) sparks.splice(k, 1); }
+
+  ctx.fillStyle = "#140c08";
+  ctx.fillRect(0, 0, W, H);
+  if (drawerId || detailId) {
+    const paneRight = Math.max(drawerId ? drawerR : drawerL, detailId ? detailR : drawerL);
+    for (let j = 1; j < rows - 1; j++) {
+      const py = offY + j * cell;
+      for (let i = drawerL; i < paneRight; i++) {
+        if (paneCellOpen[j * cols + i] === 1) {
+          ctx.clearRect(offX + i * cell, py, cell, cell);
+        }
+      }
+    }
+  }
+  const lightFieldRight = Math.min(cols - 1, colorLeft + ambientLightCols());
+
+  for (let j = 0; j < rows; j++) {
+    const py = offY + j * cell;
+    const onBorderY = j === 0 || j === rows - 1;
+    for (let i = 0; i < cols; i++) {
+      const onBorder = onBorderY || i === 0 || i === cols - 1;
+      const onHome = !onBorder && i < homeRight;
+      if (onHome) continue;
+      const inDrawer = !!drawerId && !onBorder && i >= drawerL && i < drawerR;
+      const inDetail = !!detailId && !onBorder && i >= detailL && i < detailR;
+      const activePane = inDetail ? "detail" : inDrawer ? "drawer" : null;
+      const activeSwitches = activePane === "detail" ? detailSwitches : drawerSwitches;
+      const paneCellIsOpen = !!activePane && paneCellOpen[j * cols + i] === 1;
+      const inLightField = i >= colorLeft && i < lightFieldRight;
+      const onLightBorder = !onBorder && i === lightFieldRight;
+
+      if (onBorder || onLightBorder) {
+        ctx.fillStyle = borderFill;
+        if (rad > 0) {
+          ctx.beginPath();
+          ctx.roundRect(offX + i * cell, py, tile, tile, rad);
+          ctx.fill();
+        } else {
+          ctx.fillRect(offX + i * cell, py, tile, tile);
+        }
+        continue;
+      }
+      if (!activePane && !inLightField) continue;
+
+      let b = fbm(i * CFG.waveScale + wtW * CFG.waveDriftX,
+                    j * CFG.waveScale + wtW * CFG.waveDriftY,
+                    wtW * CFG.waveEvolve + 47.1 + workSeed);
+        b = (b - th) / (1 - th);
+        b = b < 0 ? 0 : Math.pow(b, CFG.gamma);
+        b = floor + (1 - floor) * (b > 1 ? 1 : b);
+
+      let s = fbm(i * CFG.colorScale + wtC * CFG.colorDrift,
+                    j * CFG.colorScale + wtC * CFG.colorDriftY,
+                    wtC * CFG.colorEvolve) + wtC * CFG.hueCycle + hueSpin;
+
+        b *= glowNow;
+
+        if (wake.length) {
+          let g = 0;
+          const px = i + 0.5, py = j + 0.5;
+          for (let w = 0; w < wake.length; w++) {
+            const wp = wake[w];
+            const delayed = realT - wp.t - WAKE_DELAY;
+            if (delayed < 0) continue;
+            const life = 1 - delayed / (WAKE_LIFE - WAKE_DELAY);
+            if (life <= 0) continue;
+            const fade = life * life;
+            const dx = px - wp.x, dy = py - wp.y;
+            const d2 = dx * dx + dy * dy;
+            const spread = 0.42 + delayed * 2.1;
+            g += fade * 0.22 * Math.exp(-d2 / (spread * spread * 0.28));
+            const ring = Math.sqrt(d2) - delayed * 6.5;
+            g += fade * 0.28 * Math.exp(-(ring * ring) / 0.7);
+          }
+          if (g > 0.004) { b += g; s += g * 0.09; }
+        }
+
+        for (let k = 0; k < sparks.length; k++) {
+          const sp = sparks[k]; const ax = i - sp.x, ay = j - sp.y;
+          if (ax > 8 || ax < -8 || ay > 8 || ay < -8) continue;
+          const g = Math.exp(-(ax * ax + ay * ay) / sp.r) * Math.exp(-sp.t / 0.55) * sp.a;
+          b += g; s += g * 0.1;
+        }
+
+        const paneGlow = paneWaveLight(i, j, activePane);
+        if (!activePane && paneGlow > 0.002) {
+          b = exposeLight(b, paneGlow);
+        }
+
+        if (activePane) {
+          let cover = 0;
+          let edgeGlow = 0;
+          if (activeSwitches.length) {
+            for (const transition of activeSwitches) {
+              const e = switchBandEdge(i, j, transition);
+              cover = Math.max(cover, sm(clamp01(e + 1)));
+              edgeGlow = Math.max(edgeGlow, wipeGlow(Math.abs(e), 2.2));
+            }
+          }
+
+          if (cover > 0.01) {
+            /* Keep the banner opaque between tiles so text cannot show
+               through the grid gaps while the two pages are swapping. */
+            ctx.fillStyle = "#140c08";
+            ctx.fillRect(offX + i * cell, py, cell, cell);
+            b *= cover;
+            b = exposeLight(b, edgeGlow);
+          } else if (paneCellIsOpen) {
+            if (paneGlow <= 0.012) continue;
+            /* A passing pane wave can temporarily crest over revealed text,
+               while every LED keeps the ambient field's full color floor. */
+            ctx.fillStyle = "#140c08";
+            ctx.fillRect(offX + i * cell, py, cell, cell);
+            b = exposeLight(b, paneGlow);
+          } else {
+            b = exposeLight(b, paneGlow);
+          }
+        }
+
+        if (!sweepDone) {
+          const e = splashEdge(i, j, si, sj, revealP * maxRevealD);
+          const m = splashMask(e);
+          b = b * m + splashRing(e);
+          if (b < 0.02) continue;
+        }
+
+      if (b > 1) b = 1;
+      s -= Math.floor(s);
+
+      const idx = (s * 512) | 0;
+      const bq = (b * 63) | 0;
+      const key = (idx << 6) | bq;
+      let fill = lutT >= 1 ? cache[key] : null;
+      if (!fill) {
+        const m2 = (bq + 0.5) / 64;
+        const u = sm(lutT), v = 1 - u;
+        const o = idx * 3;
+        fill = "rgb(" +
+          ((lutFrom[o] * v + lutTo[o] * u) * m2 | 0) + "," +
+          ((lutFrom[o + 1] * v + lutTo[o + 1] * u) * m2 | 0) + "," +
+          ((lutFrom[o + 2] * v + lutTo[o + 2] * u) * m2 | 0) + ")";
+        if (lutT >= 1) cache[key] = fill;
+      }
+      ctx.fillStyle = fill;
+      if (rad > 0) {
+        ctx.beginPath();
+        ctx.roundRect(offX + i * cell, py, tile, tile, rad);
+        ctx.fill();
+      } else {
+        ctx.fillRect(offX + i * cell, py, tile, tile);
+      }
+      if (i === cols - 2 && j === rows - 2) cornerFill = fill;
+    }
+  }
+
+  updateFavicon(cornerFill);
+  raf = requestAnimationFrame(frame);
+}
+
+function onContentClick(e) {
+  const a = e.target.closest("a[data-go], a[data-work], a[data-detail], a[data-close-drawer], a[data-close-detail]");
+  if (!a) return;
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  if ((a.target && a.target !== "_self") || a.hasAttribute("download")) return;
+  e.preventDefault();
+  if (a.hasAttribute("data-close-detail")) {
+    navigateToPath("/projects", { restoreFocus: true });
+    return;
+  }
+  if (a.hasAttribute("data-close-drawer")) {
+    navigateToPath("/");
+    return;
+  }
+  const detail = a.getAttribute("data-detail");
+  if (detail) {
+    const path = detail === detailId && detailIntentOpen ? "/projects" : PATH_BY_DETAIL[detail];
+    navigateToPath(path, { trigger: a, restoreFocus: true, focusHeading: true });
+    return;
+  }
+  const work = a.getAttribute("data-work");
+  const go = a.getAttribute("data-go");
+  if ((work && work === workId && workLocked) || (go && go === drawerId && paneIntentOpen)) {
+    navigateToPath("/");
+    return;
+  }
+  if (work) navigateToPath(PATH_BY_WORK[work]);
+  else if (go === "about") navigateToPath("/");
+  else if (go) navigateToPath(PATH_BY_DRAWER[go]);
+}
+deckEl.addEventListener("click", onContentClick);
+drawerEl.addEventListener("click", onContentClick);
+detailEl.addEventListener("click", onContentClick);
+deckEl.addEventListener("pointerover", e => {
+  const a = e.target.closest("a[data-work]");
+  if (!a || workLocked) return;
+  applyWork(a.getAttribute("data-work"), false);
+});
+deckEl.addEventListener("pointerout", e => {
+  const a = e.target.closest("a[data-work]");
+  if (!a || workLocked) return;
+  if (e.relatedTarget && a.contains(e.relatedTarget)) return;
+  applyWork(null, false);
+});
+
+let wheelAxis = null;
+let wheelAxisTimer = 0;
+
+function wheelPixels(value, mode, pageSize) {
+  if (mode === WheelEvent.DOM_DELTA_LINE) return value * cell;
+  if (mode === WheelEvent.DOM_DELTA_PAGE) return value * pageSize;
+  return value;
+}
+
+stage.addEventListener("wheel", e => {
+  const maxCamera = Math.max(0, stage.scrollWidth - stage.clientWidth);
+  if (maxCamera < 1) return;
+  const dx = wheelPixels(e.deltaX, e.deltaMode, viewportW);
+  const dy = wheelPixels(e.deltaY, e.deltaMode, H);
+
+  if (!wheelAxis) {
+    if (e.shiftKey || Math.abs(dx) > Math.abs(dy) * 1.15) wheelAxis = "x";
+    else if (Math.abs(dy) > Math.abs(dx) * 1.15) wheelAxis = "y";
+    else wheelAxis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+  }
+  clearTimeout(wheelAxisTimer);
+  wheelAxisTimer = setTimeout(() => { wheelAxis = null; }, 120);
+
+  if (wheelAxis === "x" || e.shiftKey) {
+    e.preventDefault();
+    cancelCameraPan();
+    stage.scrollLeft = clampCameraX(stage.scrollLeft + (e.shiftKey ? dy : dx));
+  }
+  /* Vertical input belongs exclusively to article scrolling. At an article
+     edge, or over the light field, it stops instead of becoming a camera pan. */
+}, { passive: false });
+
+let touchCamera = null;
+let suppressTouchClickUntil = 0;
+
+function findTouch(touches, id) {
+  for (let i = 0; i < touches.length; i++) {
+    if (touches[i].identifier === id) return touches[i];
+  }
+  return null;
+}
+
+stage.addEventListener("touchstart", e => {
+  if (e.touches.length !== 1) {
+    touchCamera = null;
+    return;
+  }
+  cancelCameraPan();
+  const touch = e.touches[0];
+  touchCamera = {
+    id: touch.identifier,
+    x: touch.clientX,
+    y: touch.clientY,
+    scroll: stage.scrollLeft,
+    mode: null,
+    moved: false,
+    samples: [{ t: performance.now(), scroll: stage.scrollLeft }]
+  };
+}, { passive: true });
+
+stage.addEventListener("touchmove", e => {
+  if (!touchCamera || e.touches.length !== 1) return;
+  const touch = findTouch(e.touches, touchCamera.id);
+  if (!touch) return;
+  const dx = touch.clientX - touchCamera.x;
+  const dy = touch.clientY - touchCamera.y;
+
+  if (!touchCamera.mode && Math.hypot(dx, dy) >= 7) {
+    if (Math.abs(dx) > Math.abs(dy) * 1.1) {
+      touchCamera.mode = "horizontal";
+      cancelCameraPan();
+    } else if (Math.abs(dy) > Math.abs(dx) * 1.1) {
+      touchCamera.mode = "vertical";
+    }
+  }
+  if (touchCamera.mode !== "horizontal") return;
+
+  e.preventDefault();
+  touchCamera.moved = touchCamera.moved || Math.abs(dx) >= 9;
+  stage.scrollLeft = clampCameraX(touchCamera.scroll - dx);
+  const now = performance.now();
+  touchCamera.samples.push({ t: now, scroll: stage.scrollLeft });
+  while (touchCamera.samples.length > 2 && now - touchCamera.samples[0].t > 90) {
+    touchCamera.samples.shift();
+  }
+}, { passive: false });
+
+function finishTouchCamera(e) {
+  if (!touchCamera) return;
+  if (touchCamera.mode === "horizontal" && touchCamera.moved) {
+    const samples = touchCamera.samples;
+    if (samples.length >= 2) {
+      const first = samples[0];
+      const lastSample = samples[samples.length - 1];
+      if (performance.now() - lastSample.t > 80) {
+        cameraInertiaVelocity = 0;
+      } else {
+        const seconds = Math.max(0.016, (lastSample.t - first.t) / 1000);
+        const limit = viewportW * 2.5;
+        const velocity = (lastSample.scroll - first.scroll) / seconds;
+        cameraInertiaVelocity = Math.max(-limit, Math.min(limit, velocity));
+      }
+    }
+    /* Consume only the synthetic click emitted with this drag's touchend.
+       A real follow-up tap must never be swallowed. */
+    suppressTouchClickUntil = performance.now() + 80;
+    if (e.cancelable) e.preventDefault();
+  }
+  touchCamera = null;
+}
+
+stage.addEventListener("touchend", finishTouchCamera, { passive: false });
+stage.addEventListener("touchcancel", () => {
+  cameraInertiaVelocity = 0;
+  touchCamera = null;
+}, { passive: true });
+stage.addEventListener("click", e => {
+  if (performance.now() >= suppressTouchClickUntil) return;
+  e.preventDefault();
+  e.stopPropagation();
+}, true);
+
+addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.repeat || editableTarget(e.target)) return;
+  if (e.key === "Escape" && detailIntentOpen) {
+    navigateToPath("/projects", { restoreFocus: true });
+  }
+  else if (e.key === "Escape" && paneIntentOpen) navigateToPath("/");
+  else if (e.key === "Escape" && workLocked) navigateToPath("/");
+});
+
+addEventListener("popstate", hydrateRoute);
+
+function scheduleSetup() {
+  setupPending = true;
+}
+
+addEventListener("resize", scheduleSetup);
+addEventListener("orientationchange", scheduleSetup);
+if (visualViewport) {
+  visualViewport.addEventListener("resize", scheduleSetup);
+  visualViewport.addEventListener("scroll", () => { scrollTo(0, 0); });
+}
+addEventListener("scroll", () => { scrollTo(0, 0); }, { passive: true });
+
+document.addEventListener("contextmenu", e => {
+  if (!e.target.closest(".pane")) e.preventDefault();
+});
+
+document.addEventListener("visibilitychange", () => {
+  cancelAnimationFrame(raf);
+  if (document.hidden) {
+    showFallbackFavicon();
+    return;
+  }
+  last = performance.now();
+  raf = requestAnimationFrame(frame);
+});
+
+preparePaneCloseControls();
+bootPanes();
+setup();
+syncDetailLinks();
+hydrateRoute({ initial: true });
+deckEl.classList.add("show");
+deckEl.setAttribute("aria-hidden", "false");
+raf = requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
