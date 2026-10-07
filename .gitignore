@@ -15,3 +15,6 @@ Thumbs.db:encryptable
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
+
+# Reference research (other people's site copy) - keep out of the repo and deploy
+research/

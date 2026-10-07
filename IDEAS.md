@@ -35,13 +35,13 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
   with Sarvam AI*. Cheap, always-fresh signal.
 - [ ] **6. Pane counter** — small `01 / 03 · about` label on each pane header,
   borrowing the reference's numbering.
-- [ ] **7. Copy-email with a tile burst** — click email → copied to clipboard,
+- [x] **7. Copy-email with a tile burst** — click email → copied to clipboard,
   grid fires a splash from the cursor (reuse `mouseSpark`/`stampWake`), toast
   says "copied. talk soon."
 
 ## Tier 2 — Signature moments (the "wait, what?" stuff)
 
-- [~] **8. Grid writes your name on load** — the wall lights tiles to spell
+- [x] **8. Grid writes your name on load** — the wall lights tiles to spell
   `ROHAN` (5×7 pixel font) for ~1.5s, then dissolves into the normal noise.
 - [ ] **9. Project pixel-icons** — hovering a project link makes the wall draw
   a tiny pixel glyph: a turtle for turtleauth, a helmet for jarvis, a crowd
@@ -55,6 +55,12 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
 - [ ] **12. Keyboard shortcuts** — `r` = ripple from centre, `?` = shortcut
   sheet, `1/2/3` = jump to about / kpoint / projects, `g` then `h` = GitHub.
   Extend the existing `keydown` handler.
+- [~] **25. Living character ("buddy")** — inspired by the reference's
+  self-portrait: eyes follow the cursor, blinks, idle glances, dozes off after
+  20s ("z z Z"), poke reactions (annoyed → "429: too many pokes" → ignores
+  you), remembers visits, comments on pane changes. Two bodies, one brain:
+  a tile sprite in the wall and a line portrait in the about pane.
+  Compare with `?character=sprite|portrait|both|off`.
 - [ ] **13. Time-of-day palette** — teal by day, deeper ocean blue at night,
   warm amber around sunrise. Interpolate the existing LUT (`fillLUT`).
 
@@ -96,4 +102,6 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
 
 | # | Item | Shipped | Notes |
 |---|------|---------|-------|
-| 8 | Name on load | review | Skipped on phones (field off-screen) and with reduced motion. Tunables in `INTRO` const. |
+| 8 | Name on load | 2026-10-07 · 7c21f9d | Skipped on phones (field off-screen) and with reduced motion. Tunables in `INTRO` const. |
+| 7 | Copy-email burst | 2026-10-07 | Email link copies instead of mailto (fallback kept). Tiles fly out of the wall edge level with the link; inline "copied. talk soon." toast; portrait says "i'll write back. promise." Address from CV. |
+| 25 | Living character | review | Default `portrait` (sprite still at `?character=sprite`). Portrait = Rohan's own ink drawing split into layers (`me/rohan.webp` base without pupils/brows/mouth + two brow layers); live pupils hang from fitted eyelid curves (`ART_EYES`), SVG mouths + blush overlay, zoomed to the face in a 112px cream card. Handwritten bubbles via self-hosted Architects Daughter. Lines in `BUDDY_LINES`. |
