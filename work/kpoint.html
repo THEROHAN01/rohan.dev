@@ -281,8 +281,9 @@
     overscroll-behavior-x: auto;
     overscroll-behavior-y: contain;
     touch-action: pan-y pinch-zoom;
-    -webkit-user-select: text;
-    user-select: text;
+    /* Text isn't selectable (no casual copy); the email has its own copy button. */
+    -webkit-user-select: none;
+    user-select: none;
     color: var(--ink);
     background: var(--bg);
     scrollbar-width: thin;
