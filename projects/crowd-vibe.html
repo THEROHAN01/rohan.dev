@@ -421,14 +421,15 @@
   .editorial .me-head {
     display: flex;
     align-items: flex-end;
-    gap: 14px;
+    gap: 12px;
     margin: 8px 0 18px;
   }
   .editorial .me-id { min-width: 0; padding-bottom: 2px; }
   .editorial .me-id .name { margin: 0; font-size: 1.15rem; line-height: 1.25; }
   .editorial .me-role {
     margin: 2px 0 0;
-    font: 400 0.78rem / 1.4 var(--mono);
+    white-space: nowrap;
+    font: 400 0.72rem / 1.4 var(--mono);
     color: color-mix(in srgb, var(--ink) 55%, var(--bg));
   }
   .editorial .me-meta {
@@ -493,14 +494,20 @@
   html:not(.column-mode) #about { overflow: hidden; }
   @media (max-height: 640px) {
     html:not(.column-mode) #about .me-head { margin: 2px 0 12px; }
-    html:not(.column-mode) #about .buddy-face { width: 72px; height: 72px; }
+    html:not(.column-mode) #about .buddy-face { width: 88px; height: 88px; }
     html:not(.column-mode) #about .me-meta { gap: 4px; margin-bottom: 10px; }
     html:not(.column-mode) #about .sec-label { margin: 12px 0 6px; padding-top: 8px; }
     html:not(.column-mode) #about .me-bio { font-size: 0.95rem; line-height: 1.4; }
     html:not(.column-mode) #about .nav-row { margin-bottom: 2px; }
   }
   @media (max-height: 540px) {
-    html:not(.column-mode) #about .buddy-face { width: 60px; height: 60px; }
+    html:not(.column-mode) #about .buddy-face { width: 72px; height: 72px; }
+    html:not(.column-mode) #about .buddy-say {
+      left: calc(100% - 18px);
+      max-width: calc(var(--pane-w, 300px) - 40px - 100% + 18px);
+      padding: 4px 10px 3px;
+      font-size: 12.5px;
+    }
     html:not(.column-mode) #about .me-head { margin-bottom: 10px; }
     html:not(.column-mode) #about .me-meta { gap: 2px; margin-bottom: 8px; font-size: 0.74rem; }
     html:not(.column-mode) #about .me-pills { gap: 4px; }
@@ -583,7 +590,7 @@
   /* The portrait card rises out of the section into the hero, like an avatar
      over a cover image. */
   .column-mode #about { padding-top: 0; }
-  .column-mode #about .me-head { margin-top: -44px; }
+  .column-mode #about .me-head { margin-top: -54px; }
   .column-mode #about .me-meta { font-size: 0.82rem; }
   .column-mode #kpoint::before,
   .column-mode #projects::before {
@@ -654,22 +661,30 @@
      doesn't jump when it appears. */
   .buddy-portrait[hidden] { display: block; visibility: hidden; }
   .buddy-portrait:not(.in) { opacity: 0; }
-  /* The bubble pops from the portrait's top-right corner. */
+  /* The bubble pops from the portrait's top-right corner and grows downward
+     over the header, wrapping within the room left in the pane (100% here is
+     the portrait's width). */
   .buddy-portrait .buddy-say {
     position: absolute;
-    left: calc(100% - 14px);
-    bottom: calc(100% - 26px);
+    top: -6px;
+    left: calc(100% + 8px);
     z-index: 2;
     width: max-content;
-    max-width: 150px;
+    max-width: calc(var(--pane-w, 300px) - 40px - 100% - 8px);
+    border-radius: 4px 14px 14px 14px;
+    transform-origin: 0 0;
+    overflow-wrap: anywhere;
+  }
+  .column-mode .buddy-portrait .buddy-say {
+    max-width: min(240px, calc(100vw - 40px - 100% - 8px));
   }
   .buddy-face {
     /* A cream paper card with dark ink, so the hair stays dark on this site. */
     --buddy-box: var(--ink);
     position: relative;
     flex: 0 0 auto;
-    width: 88px;
-    height: 88px;
+    width: 108px;
+    height: 108px;
     padding: 0;
     border: 0;
     border-radius: 16px;
