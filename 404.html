@@ -33,6 +33,8 @@
 <meta name="twitter:image" content="https://rohansalunkhe.dev/og.jpg">
 <meta name="twitter:image:alt" content="Rohan Salunkhe portfolio site preview.">
 <link rel="manifest" href="/manifest.webmanifest">
+<link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- No custom favicon art yet; using an inline SVG monogram to avoid 404s. -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060607'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <script type="application/ld+json">
@@ -68,13 +70,32 @@
 </script>
 <style>
   /*
-   * Font substitution notice: the reference site used a proprietary
-   * "American Grotesk" commercial font (14 woff2 files) we do not have
-   * rights to redistribute. We removed the @font-face rules and the font
-   * preload <link> tags entirely and fall back to a system font stack
-   * below, so nothing 404s and the site still renders with a clean,
-   * similarly-modern grotesk feel.
+   * Type: Geist for text, Geist Mono for meta and labels, Instrument Serif
+   * for the name and pane titles (all OFL, self-hosted Latin subsets because
+   * the CSP only allows same-origin fonts). The handwritten bubbles use
+   * Architects Daughter.
    */
+  @font-face {
+    font-family: "Geist";
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url("/fonts/geist-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 400 500;
+    font-display: swap;
+    src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Instrument Serif";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+  }
   :root {
     --bg: #060607;
     /* Matte finish: a faint static film grain over the dark surfaces. */
@@ -89,7 +110,9 @@
     --cell: 20px;
     --fs: calc(var(--tile) * 0.7);
     --lh: var(--cell);
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+    --font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   }
   * { box-sizing: border-box; }
   html, body {
@@ -310,7 +333,36 @@
     font: 400 1rem / 1.5 var(--font);
     padding: var(--cell);
   }
-  .editorial .name { font-weight: 500; }
+  /* A pane title can link out (e.g. to the company site), with the company's mark. */
+  .pane .co-logo {
+    display: inline-block;
+    width: 0.92em;
+    height: 0.92em;
+    margin-right: 0.32em;
+    vertical-align: -0.1em;
+  }
+  .pane a.title-link { color: var(--ink); }
+  .pane a.title-link::after {
+    content: "\2197";
+    margin-left: 0.25em;
+    font-family: var(--font);
+    font-size: 0.55em;
+    vertical-align: 0.5em;
+    color: color-mix(in srgb, var(--ink) 45%, var(--bg));
+    transition: color 0.2s ease;
+  }
+  .pane a.title-link:hover,
+  .pane a.title-link:focus-visible { color: var(--link-on); }
+  .pane a.title-link:hover::after,
+  .pane a.title-link:focus-visible::after { color: var(--link-on); }
+  /* Pane titles and the name are set in the display serif. */
+  .editorial .name {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+  }
   .editorial .title-label {
     position: relative;
     display: inline-block;
@@ -340,7 +392,7 @@
   .editorial .role {
     color: color-mix(in srgb, var(--ink) 60%, var(--bg));
   }
-  .editorial .name + .role { margin-top: -1em; }
+  .editorial .name + .role { margin-top: -0.6em; font-family: var(--mono); font-size: 0.8rem; }
   .work-list .role { font-size: 0.875em; }
   .editorial .arrow-list {
     margin: 0 0 1em;
@@ -418,19 +470,19 @@
     display: inline-flex;
   }
   /* ---- About pane: portrait-led header, meta list, pills, labelled rows ---- */
-  :root { --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; }
   .editorial .me-head {
     display: flex;
     align-items: flex-end;
-    gap: 10px;
+    gap: 8px;
     margin: 8px 0 18px;
   }
   .editorial .me-id { min-width: 0; padding-bottom: 2px; }
-  .editorial .me-id .name { margin: 0; font-size: 1.08rem; line-height: 1.25; white-space: nowrap; }
+  .editorial .me-id .name { margin: 0; font-size: 1.5rem; line-height: 1.05; white-space: nowrap; }
   .editorial .me-role {
     margin: 2px 0 0;
     white-space: nowrap;
-    font: 400 0.72rem / 1.4 var(--mono);
+    letter-spacing: -0.02em;
+    font: 400 0.66rem / 1.4 var(--mono);
     color: color-mix(in srgb, var(--ink) 55%, var(--bg));
   }
   .editorial .me-meta {
@@ -495,6 +547,8 @@
   /* Laptop: the about pane never scrolls. Short windows tighten it in steps
      instead (smaller gaps and portrait, then labels drop to plain rules). */
   html:not(.column-mode) #about { overflow: hidden; }
+  /* The 300px pane is tight: a 116px card leaves the name its full width. */
+  html:not(.column-mode) #about .buddy-face { width: 116px; height: 116px; }
   @media (max-height: 640px) {
     html:not(.column-mode) #about .me-head { margin: 2px 0 12px; }
     html:not(.column-mode) #about .buddy-face { width: 96px; height: 96px; }
@@ -528,6 +582,7 @@
   @media (max-height: 460px) {
     html:not(.column-mode) #about .me-meta li:nth-child(3) { display: none; }
     html:not(.column-mode) #about .me-bio { font-size: 0.88rem; }
+    html:not(.column-mode) #about .me-head { margin-bottom: 6px; }
   }
   .pane a.pill-icon {
     justify-content: center;
@@ -553,7 +608,7 @@
     margin: 0 0 6px;
   }
   .nav-row .nav-key {
-    flex: 0 0 4.5rem;
+    flex: 0 0 5.75rem;
     font: 400 0.78rem / 1 var(--mono);
     color: color-mix(in srgb, var(--ink) 45%, var(--bg));
   }
@@ -604,6 +659,8 @@
   .column-mode #about { padding-top: 0; }
   .column-mode #about .me-head { margin-top: -60px; }
   .column-mode #about .me-meta { font-size: 0.82rem; }
+  .column-mode #about .me-id .name { font-size: 2rem; }
+  .column-mode #about .me-role { font-size: 0.74rem; }
   .column-mode #kpoint::before,
   .column-mode #projects::before {
     display: block;
@@ -612,7 +669,7 @@
     letter-spacing: 0.02em;
     color: color-mix(in srgb, var(--ink) 45%, var(--bg));
   }
-  .column-mode #kpoint::before { content: "work"; }
+  .column-mode #kpoint::before { content: "experience"; }
   .column-mode #projects::before { content: "projects"; }
   .column-mode #projects .work-list { gap: 2px; }
   .column-mode #projects a[data-detail]::after {
@@ -657,6 +714,37 @@
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
   .buddy-say.on { opacity: 1; transform: none; }
+  /* A guide hint: the bubble itself is clickable and its target glows. */
+  .buddy-say.on.hint { pointer-events: auto; cursor: pointer; }
+  .buddy-say.on.hint:hover { background: color-mix(in srgb, var(--link-on) 22%, var(--ink)); }
+  /* The hinted target gets a solid, square-cornered marker block and a sharp
+     pointer to its right. Static: no pulse, no rounding. */
+  .pane .hint-glow,
+  .pane a.hint-glow,
+  .pane a.pill.hint-glow {
+    position: relative;
+    color: var(--bg) !important;
+    background: var(--link-on);
+    border-color: var(--link-on);
+    border-radius: 0;
+    box-shadow: -4px 0 0 var(--link-on), 4px 0 0 var(--link-on);
+  }
+  .me-meta li > a.hint-glow { overflow: visible; }
+  .pane .hint-glow .me-ico,
+  .pane .hint-glow svg { stroke: var(--bg); }
+  .pane .hint-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -17px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 8px 5px 0;
+    border-color: transparent var(--link-on) transparent transparent;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
   .buddy-portrait {
     position: relative;
     flex: 0 0 auto;
@@ -862,11 +950,11 @@
     <p class="sec-label">about</p>
     <p class="me-bio">I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.</p>
     <p class="sec-label">explore</p>
-    <p class="work-list nav-row"><span class="nav-key">work</span><a href="/work/kpoint" data-work="kpoint" data-go="kpoint">KPoint Technologies</a></p>
+    <p class="work-list nav-row"><span class="nav-key">experience</span><a href="/work/kpoint" data-work="kpoint" data-go="kpoint">KPoint Technologies</a></p>
     <p class="work-list nav-row"><span class="nav-key">projects</span><a href="/projects" data-go="projects">Projects</a></p>
   </article>
   <article class="pane editorial" id="kpoint">
-    <p class="name">KPoint Technologies</p>
+    <p class="name"><a class="title-link" href="https://www.kpoint.com/" target="_blank" rel="noopener noreferrer"><svg class="co-logo" viewBox="0 0 314 314" aria-hidden="true"><rect width="314" height="314" rx="31" fill="#313131"/><path d="M97 88 216.5 157 97 227z" fill="#bebebe"/><circle cx="97" cy="87.6" r="33" fill="#089afd"/><circle cx="216.5" cy="157" r="32.5" fill="#db4e43"/><circle cx="96.6" cy="227" r="32.5" fill="#2dc482"/></svg>KPoint Technologies</a></p>
     <p class="role">AI Engineer Intern</p>
     <p>Architecting Prism, a conversational AI platform enabling semantic search and Q&amp;A over enterprise video content &mdash; leveraging pgvector embeddings and multi-provider LLM orchestration (7+ providers including AWS Bedrock, Gemini, OpenAI) supporting 50+ concurrent users.</p>
     <ul class="arrow-list">
@@ -1130,7 +1218,9 @@ function appendPaneClose(heading, href, attribute) {
   const label = heading.textContent.trim();
   const title = document.createElement("span");
   title.className = "title-label";
-  title.textContent = label;
+  const link = heading.querySelector("a.title-link");
+  if (link) title.appendChild(link);
+  else title.textContent = label;
   const close = document.createElement("a");
   close.className = "pane-close";
   close.href = href;
@@ -1790,11 +1880,11 @@ const BUDDY_LINES = {
   annoyed: lineBag(["okay, okay.", "easy on the tiles.", "429: too many pokes.", "rate limited. try later.", "i'm trying to work here."]),
   ignore: lineBag(["connection refused.", "503. nobody's home.", "i'm offline now.", "this face is unavailable."]),
   wake: lineBag(["huh? i was compiling.", "just resting my eyes.", "sorry, garbage collection.", "i'm up, i'm up.", "oh! you're still here."]),
-  again: lineBag(["you again :)", "okay, you like it here.", "the tiles missed you.", "at this point you should hire him."])
+  again: lineBag(["you again :)", "okay, you like it here.", "the tiles missed you.", "at this point you should hire me."])
 };
 const BUDDY_ROUTE_LINES = {
-  kpoint: "that's where rohan works.",
-  projects: "pick one. i'll wait.",
+  kpoint: "that's where i work.",
+  projects: "here's what i've built.",
   detail: "ooh, good pick.",
   home: "back home."
 };
@@ -1842,8 +1932,82 @@ const buddy = {
   hoverSince: -1, helloDone: false,
   text: "", textT: 0, textUntil: 0,
   nextIdle: 0,
-  routeKey: "", routeSaid: new Set()
+  routeKey: "", routeSaid: new Set(), routeT: 0,
+  seen: { kpoint: false, projects: false, detail: false },
+  hint: null, hintsShown: new Set(), lastHintT: -100, pokeT: -100
 };
+
+/* ---- Guide hints: the portrait nudges visitors toward the next thing ----
+   Each hint plays at most once per visit, skips what the visitor has already
+   opened, waits for a pause (idle) and for some time on the current view
+   (dwell), then points: the bubble becomes clickable, the eyes look at the
+   target and the target glows. */
+const HINT_MAX = 6;
+const HINT_GAP = 7;
+function openDetailLink() {
+  return columnMode
+    ? document.querySelector(".col-detail:not([hidden]) a.text-link")
+    : document.querySelector("#detail .pane a.text-link");
+}
+const HINTS = [
+  { id: "experience", text: "start with my experience \u2192", dwell: 4, idle: 1.5,
+    when: () => buddy.routeKey === "home" && !buddy.seen.kpoint,
+    target: () => document.querySelector("#about a[data-work]") },
+  { id: "projects", text: "now see what i build \u2192", dwell: 6, idle: 2,
+    when: () => buddy.routeKey === "kpoint" && !buddy.seen.projects,
+    target: () => document.querySelector("#about a[data-go=projects]") },
+  { id: "pick", text: "pick one. jarvis is my favourite.", dwell: 5, idle: 2,
+    when: () => buddy.routeKey === "projects" && !buddy.seen.detail,
+    target: () => document.querySelector("a[data-detail=project-jarvis]") },
+  { id: "code", text: "like it? the code's linked in there.", dwell: 6, idle: 2,
+    when: () => buddy.routeKey === "detail",
+    target: openDetailLink },
+  { id: "cv", text: "want the cv? it's right up here.", dwell: 15, idle: 3,
+    when: () => buddy.seen.kpoint && buddy.seen.projects,
+    target: () => document.querySelector("#about .me-pills a:not(.pill-icon)") },
+  { id: "email", text: "email's right there. i reply fast.", dwell: 12, idle: 3,
+    when: () => buddy.hintsShown.has("cv"),
+    target: () => document.querySelector("#about .copy-email") }
+];
+function hintVisible(el) {
+  const r = el.getBoundingClientRect();
+  return r.width > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+}
+function endHint() {
+  if (!buddy.hint) return;
+  buddy.hint.el.classList.remove("hint-glow");
+  if (buddy.text === buddy.hint.text) buddy.textUntil = Math.min(buddy.textUntil, realT);
+  buddy.hint = null;
+}
+function updateHints() {
+  const t = realT;
+  if (buddy.hint) {
+    if (t > buddy.textUntil || buddy.sleep) endHint();
+    return;
+  }
+  if (!buddy.shown || buddy.sleep || buddy.greet || buddy.hintsShown.size >= HINT_MAX) return;
+  if (t < buddy.textUntil + 0.6 || t < buddy.ignoreUntil || t - buddy.pokeT < 4 || t - buddy.wokeAt < 3) return;
+  if (t - buddy.lastHintT < HINT_GAP) return;
+  /* On phones the portrait scrolls away; only talk while it's on screen. */
+  if (columnMode && portraitFace && !hintVisible(portraitFace)) return;
+  const idle = t - buddy.activeT, dwell = t - buddy.routeT;
+  for (const h of HINTS) {
+    if (buddy.hintsShown.has(h.id) || dwell < h.dwell || idle < h.idle || !h.when()) continue;
+    const el = h.target();
+    if (!el) continue;
+    buddy.hintsShown.add(h.id);
+    buddy.lastHintT = t;
+    buddy.hint = { id: h.id, text: h.text, el };
+    el.classList.add("hint-glow");
+    buddySay(h.text, 4.5);
+    buddyMood({ brows: "up", mouth: "smile" }, 1.4);
+    return;
+  }
+}
+/* Clicking the hint's target (or anything else that navigates) clears it. */
+document.addEventListener("click", e => {
+  if (buddy.hint && e.target instanceof Node && buddy.hint.el.contains(e.target)) endHint();
+}, true);
 
 function buddyMood(mood, seconds) {
   buddy.mood = mood;
@@ -1880,6 +2044,14 @@ function buddyMouth() {
 /* Where the eyes should point, in -1..1 on each axis, for a face at (cx, cy). */
 function buddyGaze(cx, cy, rest) {
   if (buddy.sleep) return { x: 0, y: 0.5 };
+  if (buddy.hint) {
+    const r = buddy.hint.el.getBoundingClientRect();
+    const cl = v => v < -1 ? -1 : v > 1 ? 1 : v;
+    return {
+      x: cl((r.left + r.width / 2 - cx) / (innerWidth * 0.18)),
+      y: cl((r.top + r.height / 2 - cy) / (innerHeight * 0.25))
+    };
+  }
   if (buddy.glance) return buddy.glance;
   if (realT - buddy.pointerT < 4 && buddy.pointerX >= 0) {
     const cl = v => v < -1 ? -1 : v > 1 ? 1 : v;
@@ -1909,6 +2081,8 @@ function buddyPoke() {
   const t = realT;
   if (!buddy.shown || t - buddy.wokeAt < 1.2) return;
   buddy.pokes++;
+  buddy.pokeT = t;
+  endHint();
   buddy.hoverSince = -2; /* a poke is not a hover; don't let the hover smile undo it */
   buddy.pokeTimes = buddy.pokeTimes.filter(p => t - p < 2.5);
   buddy.pokeTimes.push(t);
@@ -1969,6 +2143,11 @@ function updateBuddy(dt) {
   if (routeKey !== buddy.routeKey) {
     const first = !buddy.routeKey;
     buddy.routeKey = routeKey;
+    buddy.routeT = t;
+    if (routeKey === "kpoint") buddy.seen.kpoint = true;
+    if (routeKey === "projects") buddy.seen.projects = true;
+    if (routeKey === "detail") buddy.seen.detail = buddy.seen.projects = true;
+    endHint();
     if (!first && buddy.sleep === 0 && !buddy.routeSaid.has(routeKey)) {
       buddy.routeSaid.add(routeKey);
       buddySay(BUDDY_ROUTE_LINES[routeKey]);
@@ -2008,6 +2187,7 @@ function updateBuddy(dt) {
   }
   if (buddy.mood && t > buddy.moodUntil) buddy.mood = null;
 
+  updateHints();
   updateBuddyPortrait(dt);
 }
 
@@ -2018,6 +2198,13 @@ const portraitSay = portraitEl && portraitEl.querySelector(".buddy-say");
 const portraitState = { x: 0.85, y: 0.1, open: 1, attrs: {}, text: null };
 if (portraitEl) {
   portraitFace.addEventListener("click", () => buddyPoke());
+  portraitSay.addEventListener("click", () => {
+    if (!buddy.hint) return;
+    const el = buddy.hint.el;
+    endHint();
+    if (columnMode && !hintVisible(el)) el.scrollIntoView({ block: "center", behavior: reducedMotion ? "auto" : "smooth" });
+    el.click();
+  });
   portraitFace.addEventListener("pointerenter", () => buddyHover(true));
   portraitFace.addEventListener("pointerleave", () => buddyHover(false));
 }
@@ -2105,6 +2292,11 @@ function updateBuddyPortrait(dt) {
     portraitState.text = said;
     if (said) portraitSay.textContent = said;
     portraitSay.classList.toggle("on", !!said);
+  }
+  const hinting = !!(buddy.hint && said);
+  if (portraitState.attrs.hinting !== hinting) {
+    portraitState.attrs.hinting = hinting;
+    portraitSay.classList.toggle("hint", hinting);
   }
 }
 
