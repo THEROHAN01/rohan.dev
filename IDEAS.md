@@ -77,7 +77,7 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
 ## Tier 4 — New content panes
 
 - [ ] **18. "human." pane** — the non-code side: what you're reading, listening
-  to, @thesaltycoder, a couple of photos. Makes you a person, not a CV.
+  to, @rohann.dev, a couple of photos. Makes you a person, not a CV.
 - [ ] **19. Toolkit pane** — tech chips (React, Node, Postgres, pgvector,
   LiveKit, AWS ECS…) you can drag and throw with simple physics;
   microcopy: "drag it, throw it, tidy up".
