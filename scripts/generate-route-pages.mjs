@@ -6,8 +6,9 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const source = await readFile(resolve(root, "index.html"), "utf8");
 
 const routes = [
-  ["/work/turtleauth", "turtleauth", "A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC."],
+  ["/work/kpoint", "KPoint Technologies · AI Engineer Intern","Building Prism, an enterprise conversational AI platform, plus the Prism Chat SDK and Bodh, at KPoint Technologies."],
   ["/projects", "Projects", "A small collection of projects I've built, from retrieval infrastructure to personal productivity tools."],
+  ["/projects/turtleauth", "turtleauth", "A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC."],
   ["/projects/jarvis", "jarvis", "Production-grade retrieval infrastructure for building accurate, scalable, enterprise-ready RAG systems."],
   ["/projects/crowd-vibe", "crowd-vibe", "An experiment in sensing the mood of a crowd or event in real time."],
   ["/projects/brainly-monorepo", "brainly-monorepo", "A Brainly-style knowledge and bookmarking app, built as a monorepo."],

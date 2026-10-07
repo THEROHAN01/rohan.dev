@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>turtleauth | Rohan Salunkhe</title>
-<meta name="description" content="A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.">
+<title>KPoint Technologies · AI Engineer Intern | Rohan Salunkhe</title>
+<meta name="description" content="Building Prism, an enterprise conversational AI platform, plus the Prism Chat SDK and Bodh, at KPoint Technologies.">
 <meta name="author" content="Rohan Salunkhe">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#140c08">
@@ -15,11 +15,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rohan Salunkhe">
 <meta name="application-name" content="Rohan Salunkhe">
-<link rel="canonical" href="https://rohansalunkhe.dev/work/turtleauth">
-<meta property="og:title" content="turtleauth | Rohan Salunkhe">
-<meta property="og:description" content="A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.">
+<link rel="canonical" href="https://rohansalunkhe.dev/work/kpoint">
+<meta property="og:title" content="KPoint Technologies · AI Engineer Intern | Rohan Salunkhe">
+<meta property="og:description" content="Building Prism, an enterprise conversational AI platform, plus the Prism Chat SDK and Bodh, at KPoint Technologies.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://rohansalunkhe.dev/work/turtleauth">
+<meta property="og:url" content="https://rohansalunkhe.dev/work/kpoint">
 <!-- TODO: supply a real /og.jpg (1200x630) before launch; this path is a placeholder. -->
 <meta property="og:image" content="https://rohansalunkhe.dev/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -28,8 +28,8 @@
 <meta property="og:image:alt" content="Rohan Salunkhe portfolio site preview.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@SalunkheRohan01">
-<meta name="twitter:title" content="turtleauth | Rohan Salunkhe">
-<meta name="twitter:description" content="A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.">
+<meta name="twitter:title" content="KPoint Technologies · AI Engineer Intern | Rohan Salunkhe">
+<meta name="twitter:description" content="Building Prism, an enterprise conversational AI platform, plus the Prism Chat SDK and Bodh, at KPoint Technologies.">
 <meta name="twitter:image" content="https://rohansalunkhe.dev/og.jpg">
 <meta name="twitter:image:alt" content="Rohan Salunkhe portfolio site preview.">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -330,6 +330,27 @@
     text-align: left;
     hyphens: none;
   }
+  .editorial .role {
+    color: color-mix(in srgb, var(--ink) 60%, var(--bg));
+  }
+  .editorial .name + .role { margin-top: -1em; }
+  .work-list .role { font-size: 0.875em; }
+  .editorial .arrow-list {
+    margin: 0 0 1em;
+    padding: 0;
+    list-style: none;
+  }
+  .editorial .arrow-list li {
+    position: relative;
+    margin: 0 0 0.5em;
+    padding-left: 1.4em;
+  }
+  .editorial .arrow-list li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
   #about {
     display: flex;
     flex-direction: column;
@@ -427,7 +448,8 @@
     <p class="name">Rohan Salunkhe</p>
     <p>I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.</p>
     <p class="work-list">
-      <a href="/work/turtleauth" data-work="turtleauth" data-go="turtleauth">turtleauth</a>
+      <a href="/work/kpoint" data-work="kpoint" data-go="kpoint">KPoint Technologies</a>
+      <span class="role">AI Engineer Intern</span>
     </p>
     <p class="work-list">
       <a href="/projects" data-go="projects">Projects</a>
@@ -439,15 +461,21 @@
       <a href="https://www.instagram.com/thesaltycoder" target="_blank" rel="noopener noreferrer">Instagram</a>
     </p>
   </article>
-  <article class="pane editorial" id="turtleauth">
-    <p class="name">turtleauth</p>
-    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/turtleauth" target="_blank" rel="noopener noreferrer">turtleauth</a> from scratch as a production-ready authentication and identity service: sessions, JWTs, OAuth/OIDC, multi-factor authentication, passkeys (WebAuthn), and role-based access control, all in one reusable layer other apps can plug into instead of gluing together yet another set of auth libraries.</p>
-    <p>I approached it with a security-first mindset throughout &mdash; careful session handling, rate limiting, and an RBAC model designed to be explicit rather than bolted on. Getting these details right, and getting them right consistently, was the whole point of the project.</p>
-    <p>I built it solo, on purpose, so I'd understand authentication systems end-to-end instead of only ever wiring up an off-the-shelf provider. It's still evolving as I find more edge cases worth handling properly.</p>
+  <article class="pane editorial" id="kpoint">
+    <p class="name">KPoint Technologies</p>
+    <p class="role">AI Engineer Intern</p>
+    <p>Architecting Prism, a conversational AI platform enabling semantic search and Q&amp;A over enterprise video content &mdash; leveraging pgvector embeddings and multi-provider LLM orchestration (7+ providers including AWS Bedrock, Gemini, OpenAI) supporting 50+ concurrent users.</p>
+    <ul class="arrow-list">
+      <li>Built Prism Chat SDK &mdash; an embeddable chat and voice widget with real-time WebSocket streaming, distributed via CDN across multiple enterprise deployments.</li>
+      <li>Developing Bodh, an AI-powered conversational learning platform in partnership with Sarvam AI &mdash; multilingual voice and text tutoring using LiveKit Agents and Sarvam AI models. Demoed at the India AI Impact Summit 2026.</li>
+      <li>Designed data infrastructure: PostgreSQL read/write replicas with PgBouncer connection pooling, pgvector IVFFlat indexing for semantic vector search, and semaphore-based request throttling.</li>
+      <li>Built end-to-end CI/CD pipelines: multi-stage Docker builds deployed to AWS ECS across 3 regions (Mumbai/Singapore/US) with gated approval workflows + S3&rarr;CloudFront CDN pipeline for SDK releases.</li>
+    </ul>
   </article>
   <article class="pane editorial" id="projects">
     <p class="name">Projects</p>
     <nav class="work-list" aria-label="Projects">
+      <a href="/projects/turtleauth" data-detail="project-turtleauth" aria-controls="detail" aria-expanded="false">turtleauth</a>
       <a href="/projects/jarvis" data-detail="project-jarvis" aria-controls="detail" aria-expanded="false">jarvis</a>
       <a href="/projects/crowd-vibe" data-detail="project-crowd-vibe" aria-controls="detail" aria-expanded="false">crowd-vibe</a>
       <a href="/projects/brainly-monorepo" data-detail="project-brainly-monorepo" aria-controls="detail" aria-expanded="false">brainly-monorepo</a>
@@ -458,6 +486,12 @@
 </div>
 
 <div id="project-hold" hidden>
+  <article class="pane editorial" id="project-turtleauth">
+    <p class="name" tabindex="-1">turtleauth</p>
+    <p>I built <a class="text-link" href="https://github.com/THEROHAN01/turtleauth" target="_blank" rel="noopener noreferrer">turtleauth</a> from scratch as a production-ready authentication and identity service: sessions, JWTs, OAuth/OIDC, multi-factor authentication, passkeys (WebAuthn), and role-based access control, all in one reusable layer other apps can plug into instead of gluing together yet another set of auth libraries.</p>
+    <p>I approached it with a security-first mindset throughout &mdash; careful session handling, rate limiting, and an RBAC model designed to be explicit rather than bolted on. Getting these details right, and getting them right consistently, was the whole point of the project.</p>
+    <p>I built it solo, on purpose, so I'd understand authentication systems end-to-end instead of only ever wiring up an off-the-shelf provider. It's still evolving as I find more edge cases worth handling properly.</p>
+  </article>
   <article class="pane editorial" id="project-jarvis">
     <p class="name" tabindex="-1">jarvis</p>
     <p>I built <a class="text-link" href="https://github.com/THEROHAN01/jarvis" target="_blank" rel="noopener noreferrer">jarvis</a>, production-grade retrieval infrastructure for building accurate, scalable, enterprise-ready RAG systems. It covers the parts of retrieval that are easy to get wrong: chunking documents sensibly, generating and indexing embeddings, and tuning retrieval quality so the right context actually reaches the model.</p>
@@ -563,7 +597,7 @@ let detailReturnLink = null;
 let detailRestoreFocus = true;
 let detailFocusPending = null;
 const detailSwitches = [];
-const PANE_ORDER = ["about", "turtleauth", "projects"];
+const PANE_ORDER = ["about", "kpoint", "projects"];
 const paneById = Object.fromEntries(
   Array.from(holdEl.querySelectorAll(".pane")).map(p => [p.id, p])
 );
@@ -573,8 +607,9 @@ const detailById = Object.fromEntries(
 const SITE_DESCRIPTION = "I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.";
 const ROUTES = [
   { path: "/", title: "Rohan Salunkhe", description: SITE_DESCRIPTION },
-  { path: "/work/turtleauth", title: "turtleauth", description: "A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.", drawerId: "turtleauth", workId: "turtleauth" },
+  { path: "/work/kpoint", title: "KPoint Technologies · AI Engineer Intern", description: "Building Prism, an enterprise conversational AI platform, plus the Prism Chat SDK and Bodh, at KPoint Technologies.", drawerId: "kpoint", workId: "kpoint" },
   { path: "/projects", title: "Projects", description: "A small collection of projects I've built, from retrieval infrastructure to personal productivity tools.", drawerId: "projects" },
+  { path: "/projects/turtleauth", title: "turtleauth", description: "A production-ready authentication and identity service with sessions, JWTs, OAuth/OIDC, MFA, passkeys, and RBAC.", drawerId: "projects", detailId: "project-turtleauth" },
   { path: "/projects/jarvis", title: "jarvis", description: "Production-grade retrieval infrastructure for building accurate, scalable, enterprise-ready RAG systems.", drawerId: "projects", detailId: "project-jarvis" },
   { path: "/projects/crowd-vibe", title: "crowd-vibe", description: "An experiment in sensing the mood of a crowd or event in real time.", drawerId: "projects", detailId: "project-crowd-vibe" },
   { path: "/projects/brainly-monorepo", title: "brainly-monorepo", description: "A Brainly-style knowledge and bookmarking app, built as a monorepo.", drawerId: "projects", detailId: "project-brainly-monorepo" },
@@ -591,9 +626,11 @@ const PATH_BY_DRAWER = Object.fromEntries(
 const LEGACY_HASH_PATHS = {
   about: "/",
   home: "/",
-  turtleauth: "/work/turtleauth",
+  turtleauth: "/projects/turtleauth",
+  kpoint: "/work/kpoint",
   projects: "/projects",
   thoughts: "/",
+  "project-turtleauth": "/projects/turtleauth",
   "project-jarvis": "/projects/jarvis",
   "project-crowd-vibe": "/projects/crowd-vibe",
   "project-brainly-monorepo": "/projects/brainly-monorepo",
@@ -639,7 +676,7 @@ let lutT = 1, lutDur = 0.4;
 const cache = new Array(512 * 64);
 
 const WORK = {
-  turtleauth: {
+  kpoint: {
     seed: 42,
     palette: ["#003b36", "#0a6f63", "#127f6e", "#17c3a2", "#5fe8d6", "#8ff2e6"]
   }
