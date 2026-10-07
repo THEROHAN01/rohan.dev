@@ -58,9 +58,8 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
 - [~] **25. Living character ("buddy")** — inspired by the reference's
   self-portrait: eyes follow the cursor, blinks, idle glances, dozes off after
   20s ("z z Z"), poke reactions (annoyed → "429: too many pokes" → ignores
-  you), remembers visits, comments on pane changes. Two bodies, one brain:
-  a tile sprite in the wall and a line portrait in the about pane.
-  Compare with `?character=sprite|portrait|both|off`.
+  you), remembers visits, comments on pane changes. Lives in Rohan's own
+  drawn portrait in the about pane (an earlier tile-sprite body was dropped).
 - [ ] **13. Time-of-day palette** — teal by day, deeper ocean blue at night,
   warm amber around sunrise. Interpolate the existing LUT (`fillLUT`).
 
@@ -104,4 +103,4 @@ Status: `[ ]` todo · `[~]` in progress · `[x]` shipped · `[-]` dropped
 |---|------|---------|-------|
 | 8 | Name on load | 2026-10-07 · 7c21f9d | Skipped on phones (field off-screen) and with reduced motion. Tunables in `INTRO` const. |
 | 7 | Copy-email burst | 2026-10-07 | Email link copies instead of mailto (fallback kept). Tiles fly out of the wall edge level with the link; inline "copied. talk soon." toast; portrait says "i'll write back. promise." Address from CV. |
-| 25 | Living character | review | Default `portrait` (sprite still at `?character=sprite`). Portrait = Rohan's own ink drawing split into layers (`me/rohan.webp` base without pupils/brows/mouth + two brow layers); live pupils hang from fitted eyelid curves (`ART_EYES`), SVG mouths + blush overlay, zoomed to the face in a 112px cream card. Handwritten bubbles via self-hosted Architects Daughter. Lines in `BUDDY_LINES`. |
+| 25 | Living character | review | Portrait = Rohan's own ink drawing split into layers (`me/rohan.webp` base without pupils/brows/mouth + two brow layers); live pupils hang from fitted eyelid curves (`ART_EYES`), SVG mouths + blush overlay, zoomed to the face in a 112px cream card. Handwritten bubbles via self-hosted Architects Daughter. Lines in `BUDDY_LINES`. |

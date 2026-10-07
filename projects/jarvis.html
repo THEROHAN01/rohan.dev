@@ -428,8 +428,7 @@
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
   .copy-toast.on { opacity: 0.6; transform: none; }
-  /* Buddy: one brain, two bodies. The sprite lives in the wall canvas and
-     talks through #buddy-bubble; the portrait sits in the about pane. */
+  /* Buddy: the living portrait in the about pane, with handwritten speech. */
   @font-face {
     font-family: "Architects Daughter";
     font-style: normal;
@@ -452,11 +451,6 @@
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
   .buddy-say.on { opacity: 1; transform: none; }
-  #buddy-bubble {
-    position: absolute;
-    z-index: 5;
-    width: max-content;
-  }
   .buddy-portrait {
     display: flex;
     align-items: flex-end;
@@ -571,7 +565,6 @@
 <div id="stage">
   <div id="world">
     <canvas id="wall"></canvas>
-    <p id="buddy-bubble" class="buddy-say" aria-hidden="true"></p>
     <div id="deck" aria-hidden="true">
       <div id="strip"></div>
     </div>
@@ -1424,17 +1417,15 @@ function mouseSpark(cx, cy, strong, force) {
   sparks.push({ x, y, t: 0, r: strong ? 12 : 6.5, a: strong ? 0.85 : 0.38 });
   if (sparks.length > 60) sparks.shift();
 }
-/* Copy-email burst: tiles fly out of the pane edge (or out past the buddy
-   sprite, which sits right there), level with the link, over a ripple. The
-   character, if showing, answers in Rohan's voice. */
+/* Copy-email burst: tiles fly out of the pane edge, level with the link, over
+   a ripple. The portrait, if showing, answers in Rohan's voice. */
 function emailBurst(cy) {
-  const sprite = BUDDY_SPRITE && buddy.shown;
-  if (buddy.shown && (sprite || portraitArt) && realT >= buddy.ignoreUntil) {
+  if (buddy.shown && portraitArt && realT >= buddy.ignoreUntil) {
     buddyMood({ mouth: "smile", blush: true }, 2.2);
     buddySay("i'll write back. promise.", 2.2);
   }
   if (reducedMotion || !cols) return;
-  const x0 = sprite ? spriteI + SPRITE_W + 1.5 : colorLeft + 0.6;
+  const x0 = colorLeft + 0.6;
   if (x0 > (stage.scrollLeft + viewportW - offX) / cell - 2) return;
   const y0 = Math.min(rows - 2, Math.max(1, (cy - offY) / cell));
   sparks.push({ x: x0, y: y0, t: 0, r: 4, a: 0.9 });
@@ -1537,16 +1528,9 @@ function updateIntro(dt) {
   }
 }
 
-/* ---- Buddy: a small character that lives on the page ----
+/* ---- Buddy: Rohan's drawn portrait, alive ----
    One brain (gaze, blinks, moods, speech, sleep, pokes, visit memory) drives
-   two bodies: a tile sprite drawn into the wall and a line portrait in the
-   about pane. ?character=sprite|portrait|both|off picks which ones show. */
-const BUDDY_MODE = (() => {
-  const m = new URLSearchParams(location.search).get("character");
-  return ["sprite", "portrait", "both", "off"].includes(m) ? m : "portrait";
-})();
-const BUDDY_SPRITE = BUDDY_MODE === "sprite" || BUDDY_MODE === "both";
-const BUDDY_PORTRAIT = BUDDY_MODE === "portrait" || BUDDY_MODE === "both";
+   the portrait in the about pane. */
 
 /* Shuffled without repeats; a new round never opens with the last line. */
 function lineBag(list) {
@@ -1615,7 +1599,7 @@ const buddy = {
   blinks: [],
   mood: null, moodUntil: 0,
   shakeUntil: 0,
-  sleep: 0, sleepT: 0, nextZ: 0, zs: [],
+  sleep: 0, sleepT: 0,
   wokeAt: -100,
   pokes: 0, pokeTimes: [], streak: 0, ignoreUntil: 0,
   hoverSince: -1, helloDone: false,
@@ -1677,7 +1661,6 @@ function buddyActivity() {
     buddy.sleep = 0;
     buddy.wokeAt = realT;
     buddy.shakeUntil = realT + 0.5;
-    buddy.zs.length = 0;
     buddyMood({ brows: "up", mouth: "o" }, 1.4);
     buddySay(BUDDY_LINES.wake(), 2.2);
   } else if (buddy.sleep === 1) {
@@ -1719,16 +1702,12 @@ function buddyPoke() {
   buddyBlink(1);
   buddySay(BUDDY_LINES.poke());
 }
-const buddyHovering = { sprite: false, portrait: false };
-function buddyHover(source, on) {
-  buddyHovering[source] = on;
-  const any = buddyHovering.sprite || buddyHovering.portrait;
-  if (any && buddy.hoverSince === -1) buddy.hoverSince = realT;
-  else if (!any) buddy.hoverSince = -1;
+function buddyHover(on) {
+  if (on && buddy.hoverSince === -1) buddy.hoverSince = realT;
+  else if (!on) buddy.hoverSince = -1;
 }
 
 function updateBuddy(dt) {
-  if (BUDDY_MODE === "off") return;
   const t = realT;
   if (!buddy.shown) {
     /* Arrive once the name intro has had its moment. */
@@ -1766,16 +1745,8 @@ function updateBuddy(dt) {
       buddy.sleepT = t;
       buddy.text = "";
     }
-    if (buddy.sleep === 1 && t - buddy.sleepT > 4.6) {
-      buddy.sleep = 2;
-      buddy.nextZ = t;
-    }
-    if (buddy.sleep === 2 && t >= buddy.nextZ) {
-      for (let k = 0; k < 3; k++) buddy.zs.push({ born: t + k * 0.45, size: k });
-      buddy.nextZ = t + 2.9;
-    }
+    if (buddy.sleep === 1 && t - buddy.sleepT > 4.6) buddy.sleep = 2;
   }
-  buddy.zs = buddy.zs.filter(z => t - z.born < 2.4);
   buddy.blinks = buddy.blinks.filter(b => t < b + 0.11);
 
   if (!reducedMotion && buddy.sleep === 0 && t >= buddy.nextIdle) {
@@ -1800,158 +1771,18 @@ function updateBuddy(dt) {
   }
   if (buddy.mood && t > buddy.moodUntil) buddy.mood = null;
 
-  if (BUDDY_SPRITE) updateBuddySprite(dt);
-  if (BUDDY_PORTRAIT) updateBuddyPortrait(dt);
-}
-
-/* Sprite body: 13x12 tiles. k = outline, h = head, w = eye white, c = cheek. */
-const SPRITE = [
-  "....kkkkk....",
-  "..kkhhhhhkk..",
-  ".khhhhhhhhhk.",
-  ".khhhhhhhhhk.",
-  "khhwwwhhwwwhk",
-  "khhwwwhhwwwhk",
-  "khhwwwhhwwwhk",
-  "khhhhhhhhhhhk",
-  "khchhhhhhhchk",
-  ".khhhhhhhhhk.",
-  "..khhhhhhhk..",
-  "...kkkkkkk..."
-];
-const SPRITE_W = 13, SPRITE_H = 12;
-const Z_GLYPH = ["111", "001", "010", "100", "111"];
-const SPRITE_DARK = { rgb: "rgb(20,12,8)" };
-const SPRITE_INK = { rgb: "rgb(255,246,232)" };
-const SPRITE_BLUSH = { rgb: "rgb(240,138,126)" };
-const SPRITE_HEAD = { b: 0.97, s: 0.6, lit: 1 };
-const SPRITE_MOUTHS = {
-  rest: [[5, 9], [6, 9], [7, 9]],
-  smile: [[4, 8], [8, 8], [5, 9], [6, 9], [7, 9]],
-  o: [[6, 9], [6, 10]],
-  frown: [[5, 9], [6, 9], [7, 9], [4, 10], [8, 10]]
-};
-const SPRITE_BROWS = {
-  up: [[3, 2], [4, 2], [5, 2], [8, 2], [9, 2], [10, 2]],
-  cross: [[3, 2], [4, 3], [5, 3], [8, 3], [9, 3], [10, 2]],
-  skeptic: [[3, 3], [4, 3], [5, 3], [8, 2], [9, 2], [10, 2]]
-};
-let buddyX = -1, spriteI = 0, spriteJ = 0;
-let buddyCells = null;
-const buddyBox = { i0: 0, j0: 0, i1: 0, j1: 0 };
-const bubbleEl = document.getElementById("buddy-bubble");
-let bubbleText = null, bubbleLeft = "", bubbleBottom = "";
-
-function spriteHit(cx, cy) {
-  if (!BUDDY_SPRITE || !buddy.shown || !cols) return false;
-  const i = Math.floor((cx + stage.scrollLeft - offX) / cell);
-  const j = Math.floor((cy - offY) / cell);
-  const x = i - spriteI, y = j - spriteJ;
-  return x >= 0 && x < SPRITE_W && y >= 0 && y < SPRITE_H && SPRITE[y][x] !== ".";
-}
-
-function updateBuddySprite(dt) {
-  const t = realT;
-  /* Sit just right of whichever pane is open; hop over when that changes. */
-  const targetX = colorLeft + 3;
-  if (buddyX < 0 || reducedMotion) buddyX = targetX;
-  else buddyX += (targetX - buddyX) * Math.min(1, dt * 3);
-  const walking = Math.abs(targetX - buddyX) > 0.6;
-  let si = Math.round(buddyX);
-  let sj = rows - SPRITE_H - 2;
-  if (walking) sj -= Math.floor(t * 7) % 2;
-  if (t < buddy.shakeUntil && !reducedMotion) si += Math.round(Math.sin(t * 70));
-  spriteI = si;
-  spriteJ = sj;
-
-  const g = buddyGaze(
-    offX + (si + SPRITE_W / 2) * cell - stage.scrollLeft,
-    offY + (sj + 5.5) * cell,
-    { x: -0.7, y: -0.4 }
-  );
-  const px = g.x > 0.33 ? 1 : g.x < -0.33 ? -1 : 0;
-  let py = g.y > 0.33 ? 1 : g.y < -0.33 ? -1 : 0;
-  const open = buddyOpen();
-  const vis = reducedMotion ? 1 : sm(clamp01((t - buddy.shownAt) / 0.6));
-  const mood = buddy.mood || {};
-  const cells = new Map();
-  const put = (x, y, value) => {
-    const i = si + x, j = sj + y;
-    if (i < 1 || i >= cols - 1 || j < 1 || j >= rows - 1) return;
-    if (vis < 1 && hash3(i, j, 7) > vis) return;
-    cells.set(j * cols + i, value);
-  };
-
-  for (let y = 0; y < SPRITE_H; y++) {
-    for (let x = 0; x < SPRITE_W; x++) {
-      const ch = SPRITE[y][x];
-      if (ch === ".") continue;
-      put(x, y, ch === "k" ? SPRITE_DARK : ch === "c" && mood.blush ? SPRITE_BLUSH : SPRITE_HEAD);
-    }
-  }
-  if (mood.blush) { put(3, 8, SPRITE_BLUSH); put(9, 8, SPRITE_BLUSH); }
-  /* Antenna: the tip pulses slowly, and goes dark while asleep. */
-  put(6, -1, SPRITE_DARK);
-  put(6, -2, buddy.sleep === 2 ? SPRITE_DARK
-    : { b: 0.7 + 0.3 * Math.sin(t * (reducedMotion ? 0 : 2.4)), s: 0.72, lit: 1 });
-
-  /* Eyes: a 3x3 white with a one-tile pupil; the lid drops a row at a time. */
-  for (const ex of [3, 8]) {
-    for (let y = 4; y <= 6; y++) {
-      for (let x = ex; x < ex + 3; x++) {
-        if (open < 0.3) put(x, y, y === 5 ? SPRITE_DARK : SPRITE_HEAD);
-        else put(x, y, y === 4 && open < 0.7 ? SPRITE_HEAD : SPRITE_INK);
-      }
-    }
-    if (open >= 0.3) {
-      if (open < 0.7 && py < 0) py = 0;
-      put(ex + 1 + px, 5 + py, SPRITE_DARK);
-    }
-  }
-  for (const [x, y] of SPRITE_BROWS[mood.brows] || []) put(x, y, SPRITE_DARK);
-  const mouth = buddyMouth();
-  for (const [x, y] of buddy.sleep === 2 ? [[6, 9]] : SPRITE_MOUTHS[mouth]) put(x, y, SPRITE_DARK);
-
-  for (const z of buddy.zs) {
-    const age = t - z.born;
-    if (age < 0) continue;
-    if (age < 0.15 || age > 2.1) continue;
-    const zx = SPRITE_W + z.size * 3;
-    const zy = -4 - z.size * 5 - Math.floor(age * 1.2);
-    for (let y = 0; y < 5; y++) {
-      for (let x = 0; x < 3; x++) {
-        if (Z_GLYPH[y][x] === "1") put(zx + x, zy + y, SPRITE_INK);
-      }
-    }
-  }
-
-  buddyCells = cells;
-  buddyBox.i0 = si - 1;
-  buddyBox.i1 = si + SPRITE_W + 10;
-  buddyBox.j0 = Math.max(1, sj - 20);
-  buddyBox.j1 = sj + SPRITE_H + 1;
-
-  const said = buddySaid();
-  if (said !== bubbleText) {
-    bubbleText = said;
-    if (said) bubbleEl.textContent = said;
-    bubbleEl.classList.toggle("on", !!said);
-  }
-  const left = offX + (si + SPRITE_W) * cell + 4 + "px";
-  const bottom = H - (offY + (sj + 1) * cell) + "px";
-  if (left !== bubbleLeft) bubbleEl.style.left = bubbleLeft = left;
-  if (bottom !== bubbleBottom) bubbleEl.style.bottom = bubbleBottom = bottom;
+  updateBuddyPortrait(dt);
 }
 
 /* Portrait body: an image drawing in the about pane, shown once it loads. */
-const portraitEl = BUDDY_PORTRAIT ? document.querySelector(".buddy-portrait") : null;
+const portraitEl = document.querySelector(".buddy-portrait");
 const portraitFace = portraitEl && portraitEl.querySelector(".buddy-face");
 const portraitSay = portraitEl && portraitEl.querySelector(".buddy-say");
 const portraitState = { x: 0.85, y: 0.1, open: 1, attrs: {}, text: null };
 if (portraitEl) {
   portraitFace.addEventListener("click", () => buddyPoke());
-  portraitFace.addEventListener("pointerenter", () => buddyHover("portrait", true));
-  portraitFace.addEventListener("pointerleave", () => buddyHover("portrait", false));
+  portraitFace.addEventListener("pointerenter", () => buddyHover(true));
+  portraitFace.addEventListener("pointerleave", () => buddyHover(false));
 }
 /* Rohan's drawing with the pupils, brows and mouth lifted out; the brows are
    their own layers. Eye geometry is in the drawing's 1254-unit space: each
@@ -2049,7 +1880,6 @@ addEventListener("pointermove", e => {
   buddy.pointerT = realT;
   buddy.glance = null;
   buddyActivity();
-  if (BUDDY_SPRITE && e.pointerType !== "touch") buddyHover("sprite", spriteHit(e.clientX, e.clientY));
 }, { passive: true });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) buddySaveVisit();
@@ -2058,7 +1888,6 @@ document.addEventListener("visibilitychange", () => {
 function onDown(e) {
   if (deckEl.contains(e.target) || drawerEl.contains(e.target) || detailEl.contains(e.target)) return;
   dragging = true;
-  if (spriteHit(e.clientX, e.clientY)) buddyPoke();
   stampWake(e.clientX, e.clientY, true);
   mouseSpark(e.clientX, e.clientY, true, true);
 }
@@ -3354,19 +3183,6 @@ function frame(now) {
           }
         }
 
-        let buddyFill = null;
-        if (buddyCells && !activePane &&
-            i >= buddyBox.i0 && i < buddyBox.i1 && j >= buddyBox.j0 && j < buddyBox.j1) {
-          const bc = buddyCells.get(j * cols + i);
-          if (bc) {
-            if (bc.rgb) buddyFill = bc.rgb;
-            else {
-              b += (bc.b - b) * bc.lit;
-              s += (bc.s - s) * bc.lit;
-            }
-          }
-        }
-
       if (b > 1) b = 1;
 
       const idx = (s * 512) | 0;
@@ -3383,7 +3199,7 @@ function frame(now) {
           ((lutFrom[o + 2] * v + lutTo[o + 2] * u) * m2 | 0) + ")";
         if (lutT >= 1) cache[key] = fill;
       }
-      ctx.fillStyle = buddyFill || fill;
+      ctx.fillStyle = fill;
       if (rad > 0) {
         ctx.beginPath();
         ctx.roundRect(offX + i * cell, py, tile, tile, rad);
