@@ -7,7 +7,7 @@
 <meta name="description" content="More projects, including open-source contributions, are coming soon.">
 <meta name="author" content="Rohan Salunkhe">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="theme-color" content="#140c08">
+<meta name="theme-color" content="#060607">
 <meta name="color-scheme" content="dark">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
 <meta name="twitter:image:alt" content="Rohan Salunkhe portfolio site preview.">
 <link rel="manifest" href="/manifest.webmanifest">
 <!-- No custom favicon art yet; using an inline SVG monogram to avoid 404s. -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140c08'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060607'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -76,7 +76,9 @@
    * similarly-modern grotesk feel.
    */
   :root {
-    --bg: #140c08;
+    --bg: #060607;
+    /* Matte finish: a faint static film grain over the dark surfaces. */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .032 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --line: color-mix(in srgb, var(--accent) 5%, var(--bg));
     --ink: #fff6e8;
     --accent: #17c3a2;
@@ -286,6 +288,10 @@
     scrollbar-width: thin;
     scrollbar-color: var(--line) transparent;
   }
+  .pane,
+  #deck,
+  #drawer,
+  #detail { background-image: var(--grain); }
   .pane > * { position: relative; opacity: var(--text-amt); }
   .pane a {
     color: var(--link);
@@ -2832,7 +2838,7 @@ let favAt = -1;
 let favUrl = "";
 /* No favicon.gif art asset; fall back to the same inline SVG monogram
    used as the static <link rel="icon"> in <head>. */
-const FAV_GIF = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140c08'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E";
+const FAV_GIF = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060607'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='%2317c3a2' text-anchor='middle'%3ERS%3C/text%3E%3C/svg%3E";
 
 function fillSquircle(ctx, x, y, size) {
   const n = 3.6;
@@ -3034,7 +3040,7 @@ function frame(now) {
     if (sp.t > 1.5) sparks.splice(k, 1);
   }
 
-  ctx.fillStyle = "#140c08";
+  ctx.fillStyle = "#060607";
   ctx.fillRect(0, 0, W, H);
   if (drawerId || detailId) {
     const paneRight = Math.max(drawerId ? drawerR : drawerL, detailId ? detailR : drawerL);
@@ -3141,7 +3147,7 @@ function frame(now) {
           if (cover > 0.01) {
             /* Keep the banner opaque between tiles so text cannot show
                through the grid gaps while the two pages are swapping. */
-            ctx.fillStyle = "#140c08";
+            ctx.fillStyle = "#060607";
             ctx.fillRect(offX + i * cell, py, cell, cell);
             b *= cover;
             b = exposeLight(b, edgeGlow);
@@ -3149,7 +3155,7 @@ function frame(now) {
             if (paneGlow <= 0.012) continue;
             /* A passing pane wave can temporarily crest over revealed text,
                while every LED keeps the ambient field's full color floor. */
-            ctx.fillStyle = "#140c08";
+            ctx.fillStyle = "#060607";
             ctx.fillRect(offX + i * cell, py, cell, cell);
             b = exposeLight(b, paneGlow);
           } else {
