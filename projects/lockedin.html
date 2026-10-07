@@ -416,16 +416,127 @@
   #stage.stack-clipped .pane-close {
     display: inline-flex;
   }
-  #about .social-links {
+  /* ---- About pane: portrait-led header, meta list, pills, labelled rows ---- */
+  :root { --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; }
+  .editorial .me-head {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: auto 0 0;
+    align-items: flex-end;
+    gap: 14px;
+    margin: 8px 0 18px;
   }
-  #about .email-row {
+  .editorial .me-id { min-width: 0; padding-bottom: 2px; }
+  .editorial .me-id .name { margin: 0; font-size: 1.15rem; line-height: 1.25; }
+  .editorial .me-role {
+    margin: 2px 0 0;
+    font: 400 0.78rem / 1.4 var(--mono);
+    color: color-mix(in srgb, var(--ink) 55%, var(--bg));
+  }
+  .editorial .me-meta {
+    display: grid;
+    gap: 7px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+    font: 400 0.78rem / 1.35 var(--mono);
+    color: color-mix(in srgb, var(--ink) 82%, var(--bg));
+  }
+  .me-meta li { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  .me-meta li > span,
+  .me-meta li > a { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .me-ico {
+    flex: 0 0 auto;
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: color-mix(in srgb, var(--ink) 45%, var(--bg));
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  #about .email-row { position: relative; }
+  .me-meta .copy-email { color: inherit; }
+  .me-meta .copy-toast {
+    position: absolute;
+    left: 22px;
+    top: 100%;
+    margin-top: 1px;
+    font-size: 0.72rem;
+  }
+  .me-meta .copy-email:hover,
+  .me-meta .copy-email:focus-visible { color: var(--link-on); }
+  .editorial .me-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 4px;
+  }
+  .pane a.pill {
     display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px 4px;
+    border: 1px solid color-mix(in srgb, var(--ink) 18%, var(--bg));
+    border-radius: 999px;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: color-mix(in srgb, var(--ink) 88%, var(--bg));
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  }
+  .pane a.pill:hover,
+  .pane a.pill:focus-visible {
+    color: var(--link-on);
+    border-color: color-mix(in srgb, var(--link-on) 55%, var(--bg));
+    background-color: color-mix(in srgb, var(--link-on) 8%, transparent);
+  }
+  /* Laptop: the about pane never scrolls. Short windows tighten it in steps
+     instead (smaller gaps and portrait, then labels drop to plain rules). */
+  html:not(.column-mode) #about { overflow: hidden; }
+  @media (max-height: 640px) {
+    html:not(.column-mode) #about .me-head { margin: 2px 0 12px; }
+    html:not(.column-mode) #about .buddy-face { width: 72px; height: 72px; }
+    html:not(.column-mode) #about .me-meta { gap: 4px; margin-bottom: 10px; }
+    html:not(.column-mode) #about .sec-label { margin: 12px 0 6px; padding-top: 8px; }
+    html:not(.column-mode) #about .me-bio { font-size: 0.95rem; line-height: 1.4; }
+    html:not(.column-mode) #about .nav-row { margin-bottom: 2px; }
+  }
+  @media (max-height: 540px) {
+    html:not(.column-mode) #about .buddy-face { width: 60px; height: 60px; }
+    html:not(.column-mode) #about .me-head { margin-bottom: 10px; }
+    html:not(.column-mode) #about .me-meta { gap: 2px; margin-bottom: 8px; font-size: 0.74rem; }
+    html:not(.column-mode) #about .me-pills { gap: 4px; }
+    html:not(.column-mode) #about a.pill { padding: 1px 8px 2px; font-size: 0.72rem; }
+    html:not(.column-mode) #about .sec-label {
+      height: 0;
+      margin: 10px 0 8px;
+      padding: 0;
+      overflow: hidden;
+      color: transparent;
+    }
+  }
+  @media (max-height: 460px) {
+    html:not(.column-mode) #about .me-meta li:nth-child(3) { display: none; }
+    html:not(.column-mode) #about .me-bio { font-size: 0.88rem; }
+  }
+  /* Small lowercase labels sit on a dotted rule, like a notebook. */
+  .editorial .sec-label {
+    margin: 18px 0 8px;
+    padding-top: 12px;
+    border-top: 1px dotted color-mix(in srgb, var(--ink) 24%, transparent);
+    font: 400 0.72rem / 1 var(--mono);
+    letter-spacing: 0.02em;
+    color: color-mix(in srgb, var(--ink) 45%, var(--bg));
+  }
+  .editorial .me-bio { margin-bottom: 0; }
+  .editorial .nav-row {
+    flex-direction: row;
     align-items: baseline;
-    gap: 0.6em;
+    gap: 0;
+    margin: 0 0 6px;
+  }
+  .nav-row .nav-key {
+    flex: 0 0 4.5rem;
+    font: 400 0.78rem / 1 var(--mono);
+    color: color-mix(in srgb, var(--ink) 45%, var(--bg));
   }
   .copy-toast {
     color: var(--ink);
@@ -434,6 +545,76 @@
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
   .copy-toast.on { opacity: 0.6; transform: none; }
+  /* ---- Mobile: one scrolling column over the live grid ----
+     The grid stays a fixed full-screen backdrop; the column's hero and the thin
+     "windows" between sections are transparent so the wall shows through. */
+  #column { display: none; }
+  .column-mode #column {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 7;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y pinch-zoom;
+    scrollbar-width: none;
+  }
+  .column-mode #column::-webkit-scrollbar { display: none; }
+  .column-mode #deck,
+  .column-mode #drawer,
+  .column-mode #detail { display: none !important; }
+  .col-hero { height: 42svh; min-height: 220px; }
+  .col-window { height: 40px; }
+  .column-mode .pane.col-sec {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 22px 20px 26px;
+    overflow: visible;
+    background-color: var(--bg);
+  }
+  /* Wider phones (landscape) keep a readable measure with the wall either side. */
+  .column-mode #column > .col-sec { max-width: 640px; margin-inline: auto; }
+  .column-mode .pane.col-sec:last-child {
+    padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+  /* The portrait card rises out of the section into the hero, like an avatar
+     over a cover image. */
+  .column-mode #about { padding-top: 0; }
+  .column-mode #about .me-head { margin-top: -44px; }
+  .column-mode #about .me-meta { font-size: 0.82rem; }
+  .column-mode #kpoint::before,
+  .column-mode #projects::before {
+    display: block;
+    margin: 0 0 12px;
+    font: 400 0.72rem / 1 var(--mono);
+    letter-spacing: 0.02em;
+    color: color-mix(in srgb, var(--ink) 45%, var(--bg));
+  }
+  .column-mode #kpoint::before { content: "work"; }
+  .column-mode #projects::before { content: "projects"; }
+  .column-mode #projects .work-list { gap: 2px; }
+  .column-mode #projects a[data-detail]::after {
+    content: "+";
+    margin-left: 8px;
+    color: color-mix(in srgb, var(--ink) 40%, var(--bg));
+  }
+  .column-mode #projects a[data-detail][aria-expanded="true"]::after { content: "\2212"; }
+  .column-mode .col-detail {
+    width: auto;
+    height: auto;
+    margin: 4px 0 12px;
+    padding: 2px 0 2px 14px;
+    overflow: visible;
+    border-left: 1px dotted color-mix(in srgb, var(--ink) 30%, transparent);
+    background: none;
+    font-size: 0.95rem;
+  }
+  .column-mode .col-detail[hidden] { display: none; }
+  .column-mode .col-detail > .name { display: none; }
+  .column-mode .col-detail p:last-child { margin-bottom: 0; }
   /* Buddy: the living portrait in the about pane, with handwritten speech. */
   @font-face {
     font-family: "Architects Daughter";
@@ -458,10 +639,8 @@
   }
   .buddy-say.on { opacity: 1; transform: none; }
   .buddy-portrait {
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
-    margin: auto 0 1.5em;
+    position: relative;
+    flex: 0 0 auto;
     transition: opacity 0.6s ease;
   }
   /* The pane allows text selection; the portrait shouldn't turn blue on a
@@ -471,17 +650,26 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .buddy-portrait[hidden] { display: none; }
-  .pane > .buddy-portrait:not(.in) { opacity: 0; }
-  #about .buddy-portrait:not([hidden]) + .social-links { margin-top: 0; }
-  .buddy-portrait .buddy-say { margin-bottom: 76px; max-width: 140px; }
+  /* Hidden until the drawing loads, but it keeps its slot so the header
+     doesn't jump when it appears. */
+  .buddy-portrait[hidden] { display: block; visibility: hidden; }
+  .buddy-portrait:not(.in) { opacity: 0; }
+  /* The bubble pops from the portrait's top-right corner. */
+  .buddy-portrait .buddy-say {
+    position: absolute;
+    left: calc(100% - 14px);
+    bottom: calc(100% - 26px);
+    z-index: 2;
+    width: max-content;
+    max-width: 150px;
+  }
   .buddy-face {
     /* A cream paper card with dark ink, so the hair stays dark on this site. */
     --buddy-box: var(--ink);
     position: relative;
     flex: 0 0 auto;
-    width: 112px;
-    height: 112px;
+    width: 88px;
+    height: 88px;
     padding: 0;
     border: 0;
     border-radius: 16px;
@@ -592,15 +780,7 @@
 <!-- Closed panes live here until opened; once opened they stay on the strip. -->
 <div id="hold" hidden>
   <article class="pane editorial" id="about">
-    <p class="name">Rohan Salunkhe</p>
-    <p>I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.</p>
-    <p class="work-list">
-      <a href="/work/kpoint" data-work="kpoint" data-go="kpoint">KPoint Technologies</a>
-      <span class="role">AI Engineer Intern</span>
-    </p>
-    <p class="work-list">
-      <a href="/projects" data-go="projects">Projects</a>
-    </p>
+    <header class="me-head">
     <div class="buddy-portrait" hidden>
       <button type="button" class="buddy-face" data-mouth="rest" aria-label="A drawing of Rohan. Its eyes follow your cursor; poke it if you like.">
         <div class="buddy-art" aria-hidden="true">
@@ -634,16 +814,29 @@
       </button>
       <p class="buddy-say" aria-hidden="true"></p>
     </div>
-    <p class="social-links">
-      <span class="email-row">
-        <a class="copy-email" href="mailto:rohansalunkhe700@gmail.com" title="copy rohansalunkhe700@gmail.com">Email</a>
-        <span class="copy-toast" role="status"></span>
-      </span>
-      <a href="https://github.com/THEROHAN01" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/rohan-salunkhe-a9498228a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/SalunkheRohan01" target="_blank" rel="noopener noreferrer">X</a>
-      <a href="https://www.instagram.com/thesaltycoder" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <div class="me-id">
+        <p class="name">Rohan Salunkhe</p>
+        <p class="me-role">full-stack engineer</p>
+      </div>
+    </header>
+    <ul class="me-meta">
+      <li><svg class="me-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4.5 2 8l3.5 3.5M10.5 4.5 14 8l-3.5 3.5"/></svg><span>ai engineer intern @ kpoint</span></li>
+      <li><svg class="me-ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg><span class="me-clock">india time</span></li>
+      <li><svg class="me-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.2s4.4-4.4 4.4-7.8a4.4 4.4 0 0 0-8.8 0c0 3.4 4.4 7.8 4.4 7.8z"/><circle cx="8" cy="6.4" r="1.5"/></svg><span>india</span></li>
+      <li class="email-row"><svg class="me-ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.6"/><path d="m2.6 4.4 5.4 4.2 5.4-4.2"/></svg><a class="copy-email" href="mailto:rohansalunkhe700@gmail.com" title="copy rohansalunkhe700@gmail.com">rohansalunkhe700@gmail.com</a><span class="copy-toast" role="status"></span></li>
+    </ul>
+    <p class="me-pills">
+      <a class="pill" href="https://github.com/THEROHAN01" target="_blank" rel="noopener noreferrer">github</a>
+      <a class="pill" href="https://www.linkedin.com/in/rohan-salunkhe-a9498228a/" target="_blank" rel="noopener noreferrer">linkedin</a>
+      <a class="pill" href="https://x.com/SalunkheRohan01" target="_blank" rel="noopener noreferrer">x</a>
+      <a class="pill" href="https://www.instagram.com/thesaltycoder" target="_blank" rel="noopener noreferrer">instagram</a>
+      <a class="pill" href="/CV.pdf" target="_blank" rel="noopener">cv <span aria-hidden="true">↗</span></a>
     </p>
+    <p class="sec-label">about</p>
+    <p class="me-bio">I'm a full-stack engineer based in India building thoughtful web products with the MERN stack.</p>
+    <p class="sec-label">explore</p>
+    <p class="work-list nav-row"><span class="nav-key">work</span><a href="/work/kpoint" data-work="kpoint" data-go="kpoint">KPoint Technologies</a></p>
+    <p class="work-list nav-row"><span class="nav-key">projects</span><a href="/projects" data-go="projects">Projects</a></p>
   </article>
   <article class="pane editorial" id="kpoint">
     <p class="name">KPoint Technologies</p>
@@ -752,6 +945,15 @@ const CFG = {
   paneAnimDur: 0.52,
   paneAccel: 0.16
 };
+
+/* Laptop keeps the sideways panes; narrow screens (and phones held sideways)
+   get one scrolling column. Crossing the breakpoint reloads into the other
+   layout instead of reflowing live. */
+const COLUMN_QUERY = "(max-width: 760px), (pointer: coarse) and (max-height: 500px)";
+const columnQuery = matchMedia(COLUMN_QUERY);
+const columnMode = columnQuery.matches;
+document.documentElement.classList.toggle("column-mode", columnMode);
+columnQuery.addEventListener("change", () => location.reload());
 
 const stage = document.getElementById("stage");
 const wall = document.getElementById("wall");
@@ -1477,14 +1679,16 @@ function buildIntro() {
   const lastVisibleCol = Math.floor((stage.scrollLeft + viewportW - offX) / cell) - 2;
   const lastCol = Math.min(colorLeft + ambientLightCols() - 1, lastVisibleCol);
   const availCols = lastCol - firstCol + 1;
-  const availRows = rows - 4;
+  /* On mobile only the hero shows the wall, so the word has to fit there. */
+  const fieldRows = columnMode ? Math.floor(stage.clientHeight * 0.42 / cell) : rows;
+  const availRows = fieldRows - 4;
   const textCols = INTRO.word.length * 6 - 1;
   const scale = textCols * 2 <= availCols && 14 <= availRows ? 2
     : textCols <= availCols && 7 <= availRows ? 1
     : 0;
   if (!scale) return null;
   const i0 = firstCol + Math.floor((availCols - textCols * scale) / 2);
-  const j0 = Math.floor((rows - 7 * scale) / 2);
+  const j0 = Math.floor((fieldRows - 7 * scale) / 2);
   const delay = new Float32Array(cols * rows).fill(-1);
   const out = new Float32Array(cols * rows);
   const hue = new Float32Array(cols * rows);
@@ -1716,13 +1920,13 @@ function buddyHover(on) {
 function updateBuddy(dt) {
   const t = realT;
   if (!buddy.shown) {
-    /* Arrive once the name intro has had its moment. */
-    if (!introDone || openT < INTRO.start) return;
+    /* The portrait is on screen from the start (eyes live); greetings and
+       idle life wait until the name intro has had its moment. */
+    if (!introDone || openT < INTRO.start) { updateBuddyPortrait(dt); return; }
     buddy.shown = true;
     buddy.shownAt = buddy.activeT = t;
     buddy.nextIdle = t + 1.2;
     buddy.greet = buddyVisitLine();
-    if (portraitEl) portraitEl.classList.add("in");
   }
 
   if (buddy.greet && t - buddy.shownAt > 1.1) {
@@ -1824,6 +2028,7 @@ function loadPortraitArt(k = 0) {
     });
     portraitArt = true;
     portraitEl.hidden = false;
+    portraitEl.classList.add("in");
   };
   probe.onerror = () => loadPortraitArt(k + 1);
   probe.src = src.base;
@@ -1893,12 +2098,14 @@ document.addEventListener("visibilitychange", () => {
 
 function onDown(e) {
   if (deckEl.contains(e.target) || drawerEl.contains(e.target) || detailEl.contains(e.target)) return;
+  if (columnMode && e.target.closest && e.target.closest(".col-sec")) return;
   dragging = true;
   stampWake(e.clientX, e.clientY, true);
   mouseSpark(e.clientX, e.clientY, true, true);
 }
 function onMove(e) {
   if (detailEl.contains(e.target)) return;
+  if (columnMode && e.target.closest && e.target.closest(".col-sec")) return;
   stampWake(e.clientX, e.clientY, false);
   mouseSpark(e.clientX, e.clientY, dragging, false);
 }
@@ -2438,6 +2645,7 @@ function syncRouteMetadata(route) {
 }
 
 function applyRoute(route, { trigger = null, restoreFocus = false, focusHeading = false } = {}) {
+  if (columnMode) { columnRoute(route); return; }
   if (route.detailId) {
     applyWork(null, true);
     openDrawer("projects");
@@ -2552,6 +2760,7 @@ function cameraTargetForOpening(depth) {
 }
 
 function ambientLightCols() {
+  if (columnMode) return Math.max(1, cols - 2);
   /* The final border is part of the requested 80% runway. */
   return Math.max(1, Math.round((viewportW * 0.8 - cell) / cell));
 }
@@ -2638,7 +2847,23 @@ function panToDepth(depth, { animate = true, duration = null, opening = false } 
   cameraAnimT = 0;
 }
 
+function layoutColumnWorld() {
+  drawerCols = 0;
+  homeRight = drawerL = drawerR = detailL = detailR = colorLeft = 1;
+  detailCompact = false;
+  sidePad = offX + cell;
+  paneTop = offY + cell;
+  paneW = paneH = paneGap = paneStride = 0;
+  cols = viewCols;
+  worldW = cols * cell - gap + offX * 2;
+  W = worldW;
+  document.documentElement.style.setProperty("--world-w", worldW + "px");
+  stripTarget = stripX = stripFrom = 0;
+  stripAnimT = 1;
+}
+
 function layoutDeck() {
+  if (columnMode) { layoutColumnWorld(); return; }
   /* Every pane is one stable 300px unit. On screens too narrow to fit that
      unit plus its border cells, use the nearest grid width around 90%. */
   const innerCols = Math.max(1, viewCols - 2);
@@ -3416,6 +3641,19 @@ copyEmail.addEventListener("click", e => {
   }, () => { location.href = copyEmail.href; });
 });
 
+/* Live local time in India for the meta list: "10:42 pm · tuesday". */
+const clockEls = document.querySelectorAll(".me-clock");
+const clockFormat = new Intl.DateTimeFormat("en-US", {
+  timeZone: "Asia/Kolkata", hour: "numeric", minute: "2-digit", hour12: true, weekday: "long"
+});
+function tickClock() {
+  const parts = Object.fromEntries(clockFormat.formatToParts(new Date()).map(p => [p.type, p.value]));
+  const text = `${parts.hour}:${parts.minute} ${parts.dayPeriod.toLowerCase()} · ${parts.weekday.toLowerCase()}`;
+  clockEls.forEach(el => { if (el.textContent !== text) el.textContent = text; });
+  setTimeout(tickClock, 60000 - (Date.now() % 60000) + 50);
+}
+tickClock();
+
 addEventListener("popstate", hydrateRoute);
 
 function scheduleSetup() {
@@ -3444,8 +3682,77 @@ document.addEventListener("visibilitychange", () => {
   raf = requestAnimationFrame(frame);
 });
 
-preparePaneCloseControls();
-bootPanes();
+/* Mobile: move the same pane articles into one column (no duplicated
+   content). Each project's detail sits right under its link and expands in
+   place. */
+let columnEl = null, columnRouted = false, columnRouteNow = null;
+function buildColumn() {
+  columnEl = document.createElement("div");
+  columnEl.id = "column";
+  const hero = document.createElement("div");
+  hero.className = "col-hero";
+  const windowBand = () => {
+    const band = document.createElement("div");
+    band.className = "col-window";
+    band.setAttribute("aria-hidden", "true");
+    return band;
+  };
+  ["about", "kpoint", "projects"].forEach(id => paneById[id].classList.add("col-sec"));
+  paneById.projects.querySelectorAll("a[data-detail]").forEach(a => {
+    const detail = detailById[a.dataset.detail];
+    if (!detail) return;
+    detail.classList.add("col-detail");
+    detail.hidden = true;
+    a.setAttribute("aria-controls", detail.id);
+    a.after(detail);
+  });
+  columnEl.append(hero, paneById.about, windowBand(), paneById.kpoint, windowBand(), paneById.projects);
+  document.body.appendChild(columnEl);
+  columnEl.addEventListener("click", onColumnClick);
+}
+function columnRoute(route) {
+  columnRouteNow = route;
+  Object.values(detailById).forEach(detail => {
+    const open = detail.id === route.detailId;
+    detail.hidden = !open;
+    const link = paneById.projects.querySelector(`a[data-detail="${detail.id}"]`);
+    if (link) link.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  const target = route.detailId
+    ? paneById.projects.querySelector(`a[data-detail="${route.detailId}"]`)
+    : route.workId ? paneById.kpoint
+    : route.drawerId === "projects" ? paneById.projects
+    : null;
+  const behavior = columnRouted && !reducedMotion ? "smooth" : "auto";
+  const wasRouted = columnRouted;
+  columnRouted = true;
+  requestAnimationFrame(() => {
+    if (target) {
+      const top = target.getBoundingClientRect().top - columnEl.getBoundingClientRect().top + columnEl.scrollTop;
+      columnEl.scrollTo({ top: Math.max(0, top - 16), behavior });
+    } else if (wasRouted) {
+      columnEl.scrollTo({ top: 0, behavior });
+    }
+  });
+}
+function onColumnClick(e) {
+  const a = e.target.closest("a[data-go], a[data-work], a[data-detail]");
+  if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  const detail = a.getAttribute("data-detail");
+  const work = a.getAttribute("data-work");
+  const go = a.getAttribute("data-go");
+  if (detail) {
+    navigateToPath(columnRouteNow && columnRouteNow.detailId === detail ? "/projects" : PATH_BY_DETAIL[detail]);
+  } else if (work) navigateToPath(PATH_BY_WORK[work]);
+  else navigateToPath(PATH_BY_DRAWER[go] || "/");
+}
+
+if (columnMode) buildColumn();
+else {
+  preparePaneCloseControls();
+  bootPanes();
+}
 setup();
 syncDetailLinks();
 hydrateRoute({ initial: true });
