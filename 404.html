@@ -140,12 +140,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* The page fits the screen: visitors can't pan sideways; only the camera
+     (opening and closing panes) moves the strip. */
   #stage {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
     overscroll-behavior-y: none;
@@ -3733,11 +3735,9 @@ stage.addEventListener("wheel", e => {
   clearTimeout(wheelAxisTimer);
   wheelAxisTimer = setTimeout(() => { wheelAxis = null; }, 120);
 
-  if (wheelAxis === "x" || e.shiftKey) {
-    e.preventDefault();
-    cancelCameraPan();
-    stage.scrollLeft = clampCameraX(stage.scrollLeft + (e.shiftKey ? dy : dx));
-  }
+  /* Horizontal wheel/trackpad input is swallowed (no manual pan, and no
+     swipe-back navigation); the camera only moves when panes open/close. */
+  if (wheelAxis === "x" || e.shiftKey) e.preventDefault();
   /* Vertical input belongs exclusively to article scrolling. At an article
      edge, or over the light field, it stops instead of becoming a camera pan. */
 }, { passive: false });
@@ -3787,9 +3787,9 @@ stage.addEventListener("touchmove", e => {
   }
   if (touchCamera.mode !== "horizontal") return;
 
+  /* Sideways drags don't pan the page any more. */
   e.preventDefault();
   touchCamera.moved = touchCamera.moved || Math.abs(dx) >= 9;
-  stage.scrollLeft = clampCameraX(touchCamera.scroll - dx);
   const now = performance.now();
   touchCamera.samples.push({ t: now, scroll: stage.scrollLeft });
   while (touchCamera.samples.length > 2 && now - touchCamera.samples[0].t > 90) {
